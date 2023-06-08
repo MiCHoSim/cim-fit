@@ -1,0 +1,13 @@
+<?php use App\ClanokModul\Model\ClanokManazer; ?>
+<div class="row">
+    <?php foreach ($menu as $m): ?>
+        <div class="karty col-lg-<?= 12 / count($menu) ?> p-sm-1 p-2 m-sm-0 mx-2 <?= $trieda ?>">
+            <a href="<?= $m['typ_url'] ?>/<?= $m[ClanokManazer::URL] ?>">
+                <img class="card-img " src="obrazky/menu/<?= $m[ClanokManazer::URL] ?>.jpg" alt="<?= $m[ClanokManazer::TITULOK] ?>">
+                <div class="card-img-overlay d-flex flex-column justify-content-end text-center">
+                    <h2 class="card-title karty-text-menu pl-2"><?= $m[ClanokManazer::TITULOK] ?></h2>
+                </div>
+            </a>
+        </div>
+    <?php endforeach; ?>
+</div>

@@ -1,0 +1,173 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer; ?>
+
+<!DOCTYPE html>
+<html lang="cs-sk" prefix="og: http://ogp.me/ns#">
+<head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XHG736X8P"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-1XHG736X8P');
+    </script>
+
+    <meta charset="UTF-8"/>
+    <title><?= $titulok ?></title>
+    <base href="<?= $domena ?>"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="<?= Nastavenia::$domenaNazov ?>">
+    <meta name="application-name" content="<?= Nastavenia::$domenaNazov ?>">
+
+    <meta name="description" content="<?= $popisok ?>"/>
+    <meta name="author" content="<?= $autor ?>" />
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="obrazky/logo/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="obrazky/logo/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="obrazky/logo/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="obrazky/logo/favicon/favicon-16x16.png">
+    <link rel="manifest" href="obrazky/logo/favicon/site.webmanifest">
+    <link rel="mask-icon" href="obrazky/logo/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="css/stylenew1.css" type="text/css"/><!-- Moje štýly CSS -->
+
+    <link rel="stylesheet" href="css/fontawesome.min.css" ><!-- Font Awesome -->
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"><!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="js/jquery.min.js"></script><!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <script src="js/bootstrap.min.js"></script><!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="js/stay_standalone.min.js"></script>
+
+    <!-- Oprava konfliktu medzi jQuery UI a Bootstrap -->
+    <script>$.fn.bootstrapBtn = $.fn.button.noConflict();</script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="js/pohybNavigacnaLista.js"></script>
+
+</head>
+<?php use App\ClanokModul\Model\ClanokManazer; ?>
+<body>
+
+<!-- Hlavička -->
+<div class="row no-gutters bg-dark m-0 autohide scrolled-up">
+    <header class="navbar <?= $prihlaseny ? 'navbar-expand-md' : 'navbar-expand-lg' ?> navbar-light navbar-light col-xl-10 offset-xl-1 p-0 pb-1">
+        <div class="mr-auto">
+            <a class="navbar-brand ml-xl-0 ml-md-3 ml-1 mr-1 p-0" href="">
+                <div class="row flex-nowrap mt-1 no-gutters align-items-center">
+                    <div class="mr-0 mr-md-2">
+                        <img class="" id="logo" src="obrazky/logo/logo_male.png" alt="<?= $domenaNazov ?>">
+                    </div>
+                    <div class="mr-0 mr-md-5 mr-lg-1">
+                        <h2 class="font-weight-bolder text-white font-italic m-0"><?= Nastavenia::$domenaNazov?></h2>
+                        <small class="font-weight-bolder text-success ml-1 ml-sm-5 font-italic text-monospace letter-spacing-5"><?= Nastavenia::$slogan?></small>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <button class="navbar-toggler bg-success p-1 mr-1" type="button" data-toggle="collapse" data-target="#navigacna-lista" aria-controls="navigacna-lista" aria-expanded="false" aria-label="Rozbaliť navigáciu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <nav class="collapse navbar-collapse" id="navigacna-lista">
+            <!-- Prihlásenie -->
+            <div class="w-100 d-flex justify-content-center <?= $prihlaseny ? 'justify-content-md-end' : 'justify-content-lg-end' ?> mr-1" >
+                <?php $prihlasenie_menu->vypisPohlad(); ?>
+            </div>
+        </nav>
+    </header>
+</div>
+
+<!-- Telo -->
+<div class="pozadie py-1">
+    <!--Info Cookies -->
+    <div class="fixed-top position-sticky bg-cookies">
+        <?php $cookiesKontroler->vypisPohlad(); ?>
+    </div>
+
+    <!-- Správy -->
+    <?php foreach ($_spravy as $sprava) : ?>
+        <div class="fixed-top position-sticky opacity-90 container text-white font-weight-bolder alert sprava-<?= $sprava['typ'] ?> alert-dismissible fade show" role="alert">
+            <?= KontrolkaPomocne::spravaKontrolka($sprava['typ'])?>
+            <?= $sprava['obsah'] ?>
+            <?= KontrolkaPomocne::zrusit('alert') ?>
+        </div>
+    <?php endforeach ?>
+
+    <!-- Info stránky -->
+    <div class="fixed-top position-sticky info-okno">
+        <?php $uvodInfoKontroler->vypisPohlad(); ?>
+    </div>
+
+    <?php if($prihlaseny) : ?>
+        <!-- Upozornenia stránky -->
+        <div class="fixed-top position-sticky info-okno bg-transparent d-flex justify-content-center mx-3">
+            <?php $prepadnutiePermanentka->vypisPohlad(); ?>
+        </div>
+    <?php endif; ?>
+
+
+    <!-- Menu -->
+    <nav class="container">
+        <?php $menuKontroler->vypisPohlad(); ?>
+    </nav>
+
+    <!-- Články -->
+    <section>
+        <?php $this->kontroler->vypisPohlad(); ?>
+    </section>
+
+    <!-- Kontakt -->
+    <div class="container">
+        <?php $kontaktKontroler->vypisPohlad(); ?>
+    </div>
+</div>
+<!-- Spodné menu -->
+<div class="bg-danger">
+    <nav class="small">
+        <ul class="nav justify-content-center">
+            <?php foreach ($informacie as $informacia) : ?>
+                    <li class="nav-item border-right" title="<?= $informacia[ClanokManazer::POPISOK] ?>"><a class="nav-link odkaz" href="clanok/<?= $informacia[ClanokManazer::URL] ?>"><?= $informacia[ClanokManazer::TITULOK] ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </nav>
+    <nav class="small">
+        <ul class="nav justify-content-center">
+
+            <li class="nav-item border-right" title="Súťaže"><a class="nav-link odkaz" href="sutaz">Súťaž</a></li>
+
+        </ul>
+    </nav>
+</div>
+<!-- Petička -->
+<div class="bg-dark text-center p-2 ">
+    <footer class="container text-muted">
+        <address class="row align-items-center">
+            <div class="col">Copyright © 2021 <a href="" class="text-decoration-none text-muted">  <?= $domenaNazov ?>.sk</a></div>
+            <div class="col">
+                        <span>
+                            Stranku vytvoril #<?= Nastavenia::$autorWebu ?>#<br>
+                            <?= Nastavenia::$autorEmail ?>|<?= Nastavenia::$autorTel ?>
+                        </span>
+            </div>
+        </address>
+    </footer>
+</div>
+</body>
+</html>

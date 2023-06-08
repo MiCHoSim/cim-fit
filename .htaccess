@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+
+        RewriteEngine On
+
+        RewriteRule ^$ verejny/ [L]
+
+        RewriteCond %{REQUEST_FILENAME} !-f
+
+        RewriteCond %{REQUEST_FILENAME} !-d
+
+        RewriteCond %{REQUEST_URI} !^verejny/
+
+        RewriteRule ^(.*)$ verejny/$1
+
+</IfModule>
+
+
+

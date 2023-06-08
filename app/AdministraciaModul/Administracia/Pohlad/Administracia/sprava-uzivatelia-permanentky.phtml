@@ -1,0 +1,56 @@
+<?php use App\RezervaciaModul\Model\PermanentkaTypManazer;
+use App\RezervaciaModul\Model\PermanentkaManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer; ?>
+
+<div class="bg-dark rounded-top">
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center m-0 p-1">
+        <?= $_formular['csrf'] ?>
+        <div><?= $_formular[PermanentkaManazer::OSOBA_ID] ?></div>
+        <div><?= $_formular[PermanentkaTypManazer::PERMANENTKA_TYP_ID] ?></div>
+        <div><?= $_formular['datum_od'] ?></div>
+        <div><?= $_formular['pridat-tlacidlo'] ?></div>
+    </form>
+</div>
+<div class="d-flex justify-content-center">
+    <table class="w-auto table table-hover table-sm table-bordered table-striped table-dark table-responsive-lg">
+        <thead class="bg-danger">
+        <tr>
+            <th class="text-center">P.č</th>
+            <th>Meno Priezvisko</th>
+            <th>Permanentka</th>
+            <th class="text-center">Platnosť/Vstupy/Zneaktívnená</th>
+            <th class="text-center">Aktívnosť</th>
+            <th class="text-center">Edit.</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($uzivatelia as $kluc => $uzivatel) : ?>
+            <tr>
+                <td class="text-center"><?= $kluc + 1 ?>.</td>
+                <td>
+                    <a href="administracia/osobne-udaje/<?= $uzivatel['uzivatel_id']?>">
+                        <?= $uzivatel['osoba'] ?>
+                    </a>
+                </td>
+
+                <td><?= $uzivatel[PermanentkaTypManazer::NAZOV] ?></td>
+                <td class="<?= $uzivatel[PermanentkaTypManazer::PERMANENTKA_TYP_ID] == PermanentkaTypManazer::DESAT_VSTUPOVA ? 'text-right' : '' ?>">
+                    <?= $uzivatel[PermanentkaManazer::DATUM] ?>
+
+                    <?= $uzivatel[PermanentkaTypManazer::PERMANENTKA_TYP_ID] == PermanentkaTypManazer::DESAT_VSTUPOVA ? ' / <span class="font-weight-bold">'
+                        . $uzivatel[PermanentkaManazer::ZOSTATOK_VSTUPOV] . '</span>'
+                        . ($uzivatel[PermanentkaManazer::DATUM_ZNEAKTIVNENIA] !== NULL ?
+                                 ' / ' . FormatPomocne::formatujDatumCasNaTvar($uzivatel[PermanentkaManazer::DATUM_ZNEAKTIVNENIA], 'j.n.Y - G:i:s')
+                                : '') : '' ?>
+
+
+                </td>
+                <td class="text-center"><?= $uzivatel[PermanentkaManazer::AKTIVNA] ? '<span class="btn-block btn-sm btn-success ">Aktívna</span>' : '<span class="btn-block btn-sm btn-secondary">Neaktívna</span>' ?></td>
+                <td class="text-center">
+                    <?= DialogPomocne::zostavDialogOdstranenia($kluc, 'administracia/odstran-permanentku/' . $uzivatel[PermanentkaManazer::PERMANENTKA_ID], 'Skutočne si prajete odstrániť permanetku?') ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

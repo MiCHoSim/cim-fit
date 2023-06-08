@@ -1,0 +1,64 @@
+<h4>Kontaktný Email so stránky: <a href="https://<?= $domena ?>"><?= $domenaNazov ?></a></h4>
+<!-- Kontakt  Kontaktný formulár-->
+<div class="centruj">
+    <h5>Vaše kontaktné údaje a otázky:</h5>
+    <table>
+        <tr>
+            <th>Meno:</th>
+            <td><?= $emailData['meno'] ?></td>
+        </tr>
+        <tr>
+            <th>Priezvisko:</th>
+            <td><?= $emailData['priezvisko'] ?></td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td><a href="mailto:<?= $emailData['kontakt_email'] ?>"><?= $emailData['kontakt_email'] ?></a></td>
+        </tr>
+
+        <tr>
+            <th>Telefón:</th>
+            <td><a href="tel:<?= $emailData['tel'] ?>"><?= $emailData['tel'] ?></a></td>
+        </tr>
+
+        <tr>
+            <th>Správa:</th>
+            <td class="sprava"><?= $emailData['sprava'] ?></td>
+        </tr>
+    </table>
+</div>
+<!-- Kontakt informácie-->
+<div>
+    <h5>Naše kontaktné údaje:</h5>
+    <table class="kontakt-nas">
+        <tr class="hlavicka-tabulka">
+            <td></td>
+            <th class="text-vlavo"><?= Nastavenia::$domenaNazov ?></th>
+        </tr>
+        <tr>
+            <th>Tel. č.:</th>
+            <td><a class="text-white" href="tel:<?= Nastavenia::$tel ?>"><?= Nastavenia::$tel ?></a></td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td><a class="text-white" href="mailto:<?= Nastavenia::$email ?>"><?= Nastavenia::$email ?></a></td>
+        </tr>
+
+        <?php foreach ($kontakty as $key => $kontakt) : ?>
+            <tr class="hlavicka-tabulka">
+                <th><?= $key ?></th>
+                <th class="text-vlavo"><?= $kontakt['osoba'] ?></th>
+            </tr>
+            <tr>
+                <th>Tel. č.:</th>
+                <td><a class="text-white" href="tel:<?= $kontakt['tel'] ?>"><?= $kontakt['tel'] ?></a></td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td><a class="text-white" href="mailto:<?= $kontakt['email'] ?>"><?= $kontakt['email'] ?></a></td>
+            </tr>
+
+        <?php endforeach; ?>
+
+    </table>
+</div>

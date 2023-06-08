@@ -1,0 +1,55 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\KlientManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer; ?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="bg-dark rounded-top">
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center m-0 p-1">
+        <?= $_formular['csrf'] ?>
+        <div><?= $_formular[OsobaManazer::OSOBA_ID] ?></div>
+        <div><?= $_formular['pridat-klienta-tlacidlo'] ?></div>
+    </form>
+</div>
+<div class="d-flex justify-content-center">
+    <table class="w-auto justify-content-center table table-hover table-sm table-bordered table-striped table-dark">
+        <thead class="bg-danger">
+        <tr>
+            <th class="text-center">P.č</th>
+            <th>Meno Priezvisko</th>
+            <th class="text-center">Edit.</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($klienti as $kluc => $klient) : ?>
+            <tr>
+                <td class="text-center"><?= $kluc + 1 ?>.</td>
+                <td>
+                    <?php if ($odkazDetail) : ?>
+                        <a href="administracia/osobne-udaje/<?= $klient['uzivatel_id']?>">
+                            <?= $klient['osoba'] ?>
+                        </a>
+                    <?php else: ?>
+                            <?= $klient['osoba'] ?>
+                        <small>
+                            (tel.:
+                            <a title="Zavolať" href="tel:<?= $klient[OsobaDetailManazer::TEL] ?>">
+                                <?= $klient[OsobaDetailManazer::TEL] ?>
+                            </a>
+                            email:
+                            <a title="Poslať Email" href="mailto:<?= $klient[OsobaDetailManazer::EMAIL] ?>">
+                                <?= $klient[OsobaDetailManazer::EMAIL] ?>
+                            </a>
+                            )
+                        </small>
+                    <?php endif; ?>
+
+                </td>
+                <td class="text-center">
+                    <?= DialogPomocne::zostavDialogOdstranenia($kluc, 'administracia/zrus-klienta/' . $klient[KlientManazer::KLIENT_ID], 'Skutočne si prajete odstrániť klienta?') ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

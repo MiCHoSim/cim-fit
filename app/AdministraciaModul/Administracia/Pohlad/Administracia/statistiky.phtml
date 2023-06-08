@@ -1,0 +1,166 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;
+use App\AdministraciaModul\Administracia\Model\StatistikaManazer;
+?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="border border-warning rounded m-2 p-1">
+
+
+    <h4 class="text-center">Štatistiky za <?= $pocetDni . ' ' . FormatPomocne::sklonuj('d', $pocetDni, 'eň','ní', 'ní') ?></h4>
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center align-items-end m-0 p-1 pin">
+        <?= $_formular['csrf'] ?>
+        <div><?= $_formular[StatistikaManazer::DATUM_OD] ?></div>
+        <div><?= $_formular[StatistikaManazer::DATUM_DO]  ?></div>
+        <div><?= $_formular[StatistikaManazer::LIMIT] ?></div>
+
+        <div><?= $_formular['zobrazit']; ?></div>
+    </form>
+
+    <div class="row no-gutters m-1 p-1">
+        <div class="col-12 col-md-5 mb-1 bg-danger border border-light rounded p-1">
+            <div>
+                Všetky individuálne rezervácie:
+                <span class="text-dark font-weight-bold">
+                    <?= $pocetRezervacii['pocet_individualne'] ?>
+                </span>
+            </div>
+            <div title="Počet uživateľov, ktorý rezervácie vytvárali">
+                Unikátne individuálne rezervácie:
+                <span class="text-dark font-weight-bold">
+                    <?= $pocetUnikatnychRezervacii['pocet_individualne'] ?>
+                </span>
+            </div>
+        </div>
+        <div class="offset-md-2"></div>
+        <div class="col-12 col-md-5 bg-danger border border-light rounded p-1">
+            <div>
+                Všetky skupinové rezervácie:
+                <span class="text-dark font-weight-bold">
+                    <?= $pocetRezervacii['pocet_skupina'] ?>
+                </span>
+            </div>
+            <div title="Počet trénerov, ktorý rezervácie vytvárali">
+                Unikátne skupinové rezervácie:
+                <span class="text-dark font-weight-bold">
+                    <?= $pocetUnikatnychRezervacii['pocet_skupina'] ?>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3 class="text-center">Individuálne</h3>
+        <div class="row justify-content-center text-center text-md-left">
+            <?php foreach ($pocetRezervaciiUzivatelov['individualne'] as $kluc => $individialne) : ?>
+                <div class="col-12 col-md-3 mb-1">
+                    <div class="card m-0 m-lg-1 bg-danger border-light rounded ">
+                        <div class="card-body p-1 p-lg-3">
+                            <h4 class="card-title text-center"><?= $kluc + 1 ?>.</h4>
+                            <a class="text-light font-weight-bold text-nowrap" href="administracia/osobne-udaje/<?= $individialne['uzivatel_id']?>">
+                                <?= $individialne['osoba'] ?>
+                            </a>
+                            <div class="text-nowrap">
+                                Počet Rezervácií: <span class="font-weight-bold"> <?= $individialne['pocet'] ?></span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+    </div>
+
+    <div>
+        <h3 class="text-center">Skupinové(s trénerom)</h3>
+        <div class="row justify-content-center text-center text-md-left">
+            <?php foreach ($pocetRezervaciiUzivatelov['skupinove'] as $kluc => $skupinove) : ?>
+                <div class="col-12 col-md-3 mb-1">
+                    <div class="card m-0 m-lg-1 bg-danger border-light rounded ">
+                        <div class="card-body p-1 p-lg-3">
+                            <h4 class="card-title text-center"><?= $kluc + 1 ?>.</h4>
+                            <a class="text-light font-weight-bold text-nowrap" href="administracia/osobne-udaje/<?= $skupinove['uzivatel_id']?>">
+                                <?= $skupinove['osoba'] ?>
+                            </a>
+                            <div class="text-nowrap">
+                                Počet Rezervácií: <span class="font-weight-bold"><?= $skupinove['pocet'] ?></span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+    </div>
+</div>
+
+<div class="bg-success p-1">
+    <h5 class="text-center">Štatistiky rezervácii podľa jednotlivých mesiacov</h5>
+    <table class="table table-bordered table-hover table-sm text-center table-responsive-lg">
+        <th></th>
+        <?php foreach ($mesiace as $mesiac) : ?>
+            <th title="mesiac"><?= FormatPomocne::prveVelke($mesiac) ?></th>
+        <?php endforeach; ?>
+
+        <?php foreach ($pocetRezervaciiMesiace['rezervaciiMesiace'] as $rok => $mesiac) : ?>
+            <tr>
+                <th title="rok"><?= $rok ?></th>
+
+                <?php foreach ($mesiac as $pocet) : ?>
+                    <td>
+                        <div class="text-nowrap">
+                            <span title="všetky individuálne rezervácie"><?= $pocet['pocetRezervacii']['pocet_individualne'] ?></span> /
+                            <span title="unikátne individuálne rezervácie (Počet uživateľov, ktorý rezervácie vytvárali"><?= $pocet['pocetUnikatnychRezervacii']['pocet_individualne'] ?></span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span title="všetky skupinové rezervácie"><?= $pocet['pocetRezervacii']['pocet_skupina'] ?></span> /
+                            <span title="unikátne skupinové rezervácie (Počet trénerov, ktorý rezervácie vytvárali"><?= $pocet['pocetUnikatnychRezervacii']['pocet_skupina'] ?></span>
+                        </div>
+                    </td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</div>
+
+<div class="bg-success no-gutters">
+    <h5 class="text-center">Štatistiky uživateľov vytvarajúcich rezervácie podľa jednotlivých mesiacov</h5>
+    <table class="table table-bordered table-hover table-sm text-center table-responsive-xl">
+        <?php foreach ($pocetRezervaciiMesiace['rezervaciiMesiaceUzivatelov'] as $rok => $pocetMesiace) : ?>
+            <tr>
+                <th></th>
+                <?php foreach ($mesiace as $mesiac) : ?>
+                    <th title="mesiac"><?= FormatPomocne::prveVelke($mesiac) ?></th>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <th title="rok"><?= $rok ?></th>
+
+                <?php foreach ($pocetMesiace as $pocetMesiac) : ?>
+                    <td>
+                        <div title="Individuálne">
+                            <?php foreach ($pocetMesiac['individualne'] as $uzivatel) : ?>
+                            <span class="text-wrap"><a class="text-dark" href="administracia/osobne-udaje/<?= $uzivatel['uzivatel_id']?>"><?= $uzivatel['osoba'] ?></a></span><br>
+                            <span><?= $uzivatel['pocet'] ?></span>
+                            <hr>
+                        </div>
+                        <?php endforeach; ?>
+                        <div class="border-top pt-2" title="Skupinové">
+                            <?php foreach ($pocetMesiac['skupinove'] as $uzivatel) : ?>
+                                <span class="text-nowrap"><a class="text-dark" href="administracia/osobne-udaje/<?= $uzivatel['uzivatel_id']?>"><?= $uzivatel['osoba'] ?></a></span><br>
+                                <span><?= $uzivatel['pocet'] ?></span>
+                                <hr>
+                            <?php endforeach; ?>
+                        </div>
+                    </td>
+
+                <?php endforeach; ?>
+
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</div>

@@ -1,0 +1,12 @@
+<nav class="d-flex justify-content-center rounded ">
+    <div class="text-center">
+        <?php foreach ($menu as $nazov => $atribut) : ?>
+            <a href="<?= $atribut['url'] ?>" class="font-weight-bold btn m-1 <?= $atribut['aktivna'] ? 'btn-success' : 'btn-dark' ?>"><?= $nazov ?></a>
+        <?php endforeach; ?>
+    </div>
+</nav>
+<header class="text-center">
+    <?php if ($titulok) : ?>
+        <h2 class="nadpisy"><?= $titulok ?></h2>
+    <?php endif; ?>
+</header>

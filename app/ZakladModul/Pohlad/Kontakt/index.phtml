@@ -1,0 +1,87 @@
+<!-- Kontakt informácie-->
+<div class="row  py-md-2 border border-danger rounded kontakt-pozadie">
+    <div class="col-md">
+        <h1 class="my-0 text-center">
+            <a href="">
+                <img class="img-fluid" id="logo_kontakt" src="obrazky/logo/logo_stredne.png" alt="<?= Nastavenia::$domenaNazov ?>">
+            </a>
+        </h1>
+
+        <div class="row no-gutters">
+            <div class="col p-1">
+                <div class="card h-100 ">
+                    <div class="card-header bg-danger py-1 pl-2">
+                        <h6 class="card-title m-0"><em>Kontakt: <?= Nastavenia::$domenaNazov ?></em></h6>
+                    </div>
+                    <div class="card-body bg-dark p-2">
+                        <h6 class="card-title"><em><?= Nastavenia::$domenaNazov ?></em></h6>
+                        <span class="card-text">Tel. č.:
+                                <a class="text-white" href="tel:<?= Nastavenia::$tel ?>"><?= Nastavenia::$tel ?></a>
+                        </span>
+                        <br>
+                        <span class="card-text">Email:
+                                <a class="text-white" href="mailto:<?= Nastavenia::$email ?>"><?= Nastavenia::$email ?></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <?php foreach ($kontakty as $key => $kontakt) : ?>
+                <div class="col p-1">
+                    <div class="card h-100 ">
+                        <div class="card-header bg-danger py-1 pl-2">
+                            <h6 class="card-title m-0"><em><?= $key ?></em></h6>
+                        </div>
+                        <div class="card-body bg-dark p-2">
+                            <h6 class="card-title"><em><?= $kontakt['osoba'] ?></em></h6>
+                            <span class="card-text">Tel. č.:
+                                <a class="text-white" href="tel:<?= $kontakt['tel'] ?>"><?= $kontakt['tel'] ?></a></span>
+                            <br>
+                            <span class="card-text">Email:
+                                <a class="text-white" href="mailto:<?= $kontakt['email'] ?>"><?= $kontakt['email'] ?></a></span>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <!-- Kontakt  Kontaktný formulár-->
+    <div class="col-md d-flex align-items-center justify-content-center">
+        <div>
+            <form method="post" id="<?= $_formular['formularId'] ?>">
+                <?= $_formular['csrf'] ?>
+                <h5 class="text-center">Kontaktný formulár:</h5>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <?= $_formular['meno'] ?>
+                    </div>
+                    <div class="form-group col">
+                        <?= $_formular['priezvisko'] ?>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <?= $_formular['kontakt_email'] ?>
+                    </div>
+                    <div class="form-group col">
+                        <?= $_formular['tel'] ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <?= $_formular['sprava'] ?>
+                </div>
+                <div class="form-group">
+                    <?= $_formular['antispam'] ?>
+                </div>
+                <div class="form-check text-center mb-3">
+                    <?= $_formular['suhlas'] ?>
+                </div>
+                <?= $_formular['kontakt-tlacidlo'] ?>
+            </form>
+            <div class="text-center my-3">
+                <a href="<?= $facebook ?>" target="_blank"><img class="mr-3" id="logo_fb" src="obrazky/social/facebook.png" alt="Facebook" title="Facebook"></a>
+                <a href="<?= $instagram ?>" target="_blank"><img class="" id="logo_ig" src="obrazky/social/instagram.png" alt="Instagram" title="Instagram"></a>
+            </div>
+        </div>
+    </div>
+</div>
+

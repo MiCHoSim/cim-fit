@@ -1,0 +1,42 @@
+<?php
+use App\RezervaciaModul\Model\PermanentkaManazer;
+use App\RezervaciaModul\Model\PermanentkaTypManazer;
+?>
+<div class="bg-warning rounded border border-white p-2 text-center">
+    <h3 class="">Tvojej permanentke skončila platnosť</h3>
+    <div class="d-flex justify-content-center">
+
+        <table class="table table- w-25">
+
+            <tr>
+                <th>Permanentka: </th>
+                <td class="text-nowrap"><?= $permanentka[PermanentkaTypManazer::NAZOV] ?></td>
+            </tr>
+
+            <?php if ($permanentka[PermanentkaTypManazer::PERMANENTKA_TYP_ID] === PermanentkaTypManazer::DESAT_VSTUPOVA) : ?>
+                <tr>
+                    <th>Aktivovaná: </th>
+                    <td><?= FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM]) ?></td>
+                </tr>
+                <?php if ($permanentka[PermanentkaManazer::DATUM_ZNEAKTIVNENIA] !== NULL) : ?>
+                    <tr>
+                        <th>Zneaktívnená: </th>
+                        <td><?= FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM_ZNEAKTIVNENIA]) ?></td>
+                    </tr>
+                <?php endif; ?>
+
+            <?php else: ?>
+                <tr>
+                    <th>Platná do: </th>
+                    <td><?= FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM], '') ?></td>
+                </tr>
+            <?php endif; ?>
+        </table>
+
+    </div>
+    <div class="text-center">
+        <a href="upozornenie/uloz/<?= $permanentka[PermanentkaManazer::PERMANENTKA_ID] ?>?presmeruj=<?= $presmeruj ?>" class="btn btn-lg btn-dark">Rozumiem</a>
+    </div>
+</div>
+
+

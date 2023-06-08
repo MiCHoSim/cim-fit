@@ -1,0 +1,32 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer;
+      use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer; ?>
+
+<h4>Registrácia na <a href="https://<?= $domena ?>"><?= $domenaNazov ?></a></h4>
+<div class="centruj">
+    <p>Ďakujeme Vám za registráciu na našej stránke. <br> Vaše údaje:</p>
+    <table>
+        <tr>
+            <th>Prihlasovací email:</th>
+            <td><?= $emailData[OsobaDetailManazer::EMAIL] ?></td>
+        </tr>
+        <tr>
+            <th>Prihlasovacie heslo:</th>
+            <td><?= $emailData[UzivatelManazer::HESLO] ?></td>
+        </tr>
+        <tr>
+            <th>Meno:</th>
+            <td><?= $emailData[OsobaDetailManazer::MENO] ?></td>
+        </tr>
+        <tr>
+            <th>Priezvisko:</th>
+            <td><?= $emailData[OsobaDetailManazer::PRIEZVISKO] ?></td>
+        </tr>
+        <tr>
+            <th>Telefón:</th>
+            <td><?= $emailData[OsobaDetailManazer::TEL] ?></td>
+        </tr>
+    </table>
+    <br>
+    <p>Údaje si možte zmeniť na <a target="_blank" href="https://<?= $domena ?>/administracia/osobne-udaje">tejto adrese.</a></p>
+
+</div>

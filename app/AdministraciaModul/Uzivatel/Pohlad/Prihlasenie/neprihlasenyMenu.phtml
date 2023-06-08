@@ -1,0 +1,22 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer;
+      use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer; ?>
+
+<div class="d-flex flex-nowrap">
+
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center">
+        <?= $_formular['csrf'] ?>
+        <?= $_formular[OsobaDetailManazer::EMAIL] ?>
+        <?= $_formular[UzivatelManazer::HESLO] ?>
+        <span class="m-1"><?= $_formular['prihlasit-tlacidlo'] ?></span>
+
+
+            <small class="text-right mx-1 ">
+                <a class="odkaz" href="registrovat">Registrovať</a><br>
+                <small><a class="text-nowrap odkaz" href="prihlasit/zabudnute-heslo">Zabudnuté heslo</a></small>
+            </small>
+
+
+    </form>
+
+
+</div>

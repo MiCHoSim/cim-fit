@@ -1,0 +1,389 @@
+<?php
+use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;
+use App\RezervaciaModul\Model\PermanentkaManazer;
+use App\RezervaciaModul\Model\PermanentkaTypManazer;
+use App\AdministraciaModul\Uzivatel\Model\TrenerManazer;
+use App\RezervaciaModul\Model\RezervaciaManazer;
+use App\RezervaciaModul\Model\PoznamkaManazer; ?>
+
+<?= isset($menu) ? $menu->vypisPohlad() : '' ?>
+
+<div class="d-flex justify-content-center">
+    <form method="post" id="<?= $_formular['formularId'] ?>" >
+
+        <div class="border border-light rounded p-2 my-1">
+            <div class="row no-gutters">
+                <div class="col-12 col-md m-1">
+                    <div class=" border border-dark bg-success rounded p-1">Registrovaný:
+                        <span class="text-dark font-weight-bold">
+                            <?= $osobneUdaje[UzivatelManazer::DATUM_REGISTRACIE] ? FormatPomocne::formatujDatumCasNaTvar($osobneUdaje[UzivatelManazer::DATUM_REGISTRACIE], 'j.n.Y / G:i:s') : 'NULL' ?>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-md m-1">
+                    <div class=" border border-dark bg-success rounded p-1">Posledné prihlásenie:
+                        <span class="text-dark font-weight-bold">
+                            <?= $osobneUdaje[UzivatelManazer::DATUM_PRIHLASENIA] ? FormatPomocne::formatujDatumCasNaTvar($osobneUdaje[UzivatelManazer::DATUM_PRIHLASENIA], 'j.n.Y - G:i:s') : 'NULL'?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col-12 col-md m-1">
+                    <div class=" border border-dark bg-success rounded p-1">Permanentka:
+                        <span class="text-dark font-weight-bold">
+                        <?php if (empty($permanentka) || !$permanentka[PermanentkaManazer::AKTIVNA]) : ?>
+                            <span class="btn-sm btn-secondary">Neaktívna</span>
+                        <?php endif; ?>
+
+                        <?php if(!empty($permanentka)): ?>
+
+                            <?php if(!$permanentka[PermanentkaManazer::AKTIVNA]): ?>
+                                <div class="btn-sm btn-secondary mt-1">
+                                    <span>Posledne aktívna permanentka</span>
+                            <?php else: ?>
+                                <div>
+                            <?php endif; ?>
+                            <div class="m-1">
+                                <span class="btn-sm btn-warning text-nowrap"><?= $permanentka[PermanentkaTypManazer::NAZOV] ?></span>
+                                <?php if ($permanentka[PermanentkaTypManazer::PERMANENTKA_TYP_ID] === PermanentkaTypManazer::DESAT_VSTUPOVA) : ?>
+                                    <span class="btn-sm btn-warning text-nowrap">Zostatok - <?= $permanentka[PermanentkaManazer::ZOSTATOK_VSTUPOV] ?></span>
+                                    <span class="btn-sm btn-warning text-nowrap">Aktivovaná - <?= FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM]) ?></span>
+                                    <?php if ($permanentka[PermanentkaManazer::DATUM_ZNEAKTIVNENIA] !== NULL) : ?>
+                                        <span class="btn-sm btn-warning text-nowrap">Zneaktívnená - <?= FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM_ZNEAKTIVNENIA]) ?></span>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="btn-sm btn-warning text-nowrap">do <?= FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM], '') ?></span>
+                                <?php endif; ?>
+                            </div>
+                            </div>
+                        <?php endif; ?>
+                        </span>
+                    </div>
+                    </div>
+
+                    <div class="col-12 col-md m-1">
+                        <div class="border-dark bg-success rounded p-1">
+                            <span class="pr-2">Staré permanentky</span>
+                            <?php if (empty($permanentky)) : ?>
+                                <span class="btn-sm btn-secondary font-weight-bold">Žiadné</span>
+                            <?php else: ?>
+                                <table class="table table-hover table-sm">
+                                    <thead class="">
+                                    <tr>
+                                        <th class="text-center">P.č</th>
+                                        <th>Permanentka</th>
+                                        <th class="text-center">Počet</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $celkom = 0; ?>
+                                    <?php foreach ($permanentky as $kluc => $permanentka) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= $kluc + 1 ?>.</td>
+                                            <td class="font-weight-bold"><?= $permanentka[PermanentkaTypManazer::NAZOV] ?></td>
+                                            <td class="text-center"><?= $permanentka['pocet'] ?></td>
+                                            <?php $celkom += $permanentka['pocet'] ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr class="font-weight-bolder">
+                                        <td colspan="2" class="text-right"><span class="border-bottom">Celkom</span></td>
+                                        <td class="text-center"><span class="border-bottom px-1"><?= $celkom ?></span></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters">
+                    <div class="col-12 col-md m-1">
+                        <div class=" border border-dark bg-success rounded p-1">
+                            <span class="pr-2">Počet rezervácií</span>
+                            <table class="table table-hover table-sm">
+                                <tr>
+                                    <td class="font-weight-bold">Individuálne</td>
+                                    <td><?= $pocetRezervacii['rezervacie_individualne'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">S trénerom</td>
+                                    <td><?= $pocetRezervacii['rezervacie_s_trenerom'] ?></td>
+                                </tr>
+                                <tr class="<?= $osobneUdaje[TrenerManazer::AKTIVNY] ? 'font-weight-bold' : 'text-muted preciarkni' ?>">
+                                    <td class="">S klientom</td>
+                                    <td class="font-weight-normal"><?= $pocetRezervacii['rezervacie_s_klientom'] ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md m-1">
+                    </div>
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-12 col-lg m-1">
+                        <div class=" border border-dark bg-success rounded p-1">
+                            <span class="pr-2">Individuálne rezervácie <small class="text-muted">(<?= $pocetRezervacii['rezervacie_individualne'] ?>)</small></span>
+                            <table class="table table-hover table-sm text-center">
+                                <tr>
+                                    <th>Dátum</th>
+                                    <th>Príchod</th>
+                                    <th>Odchod</th>
+                                </tr>
+
+                                <tr data-toggle="collapse" data-target="#buduce-uzivatela-collapse" aria-expanded="true" aria-controls="buduce-uzivatela-collapse">
+                                    <td class="font-weight-bold" colspan="3"><i class="fas fa-arrow-down"></i> Budúce rezervácie <i class="fas fa-arrow-down"></i></td>
+                                </tr>
+                                <tbody class="collapse" id="buduce-uzivatela-collapse">
+                                <?= empty($rezervacieUzivatela['buduce']) ? '<tr class="text-warning"><td colspan="4">Uživateľ nemá žiadne budúce rezervácie</td></tr>' : '' ?>
+                                <?php foreach ($rezervacieUzivatela['buduce'] as $rezervacia) : ?>
+                                    <tr class="text-warning">
+                                        <td><?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_OD] ?></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_DO] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                                <tr data-toggle="collapse" data-target="#minule-uzivatela-collapse" aria-expanded="false" aria-controls="minule-uzivatela-collapse">
+                                    <td class="font-weight-bold" colspan="3"><i class="fas fa-arrow-down"></i> Minulé rezervácie <i class="fas fa-arrow-down"></i></td>
+                                </tr>
+                                <tbody class="collapse" id="minule-uzivatela-collapse">
+                                <?= empty($rezervacieUzivatela['minule']) ? '<tr class="text-warning"><td colspan="4">Uživateľ nemá žiadne minulé rezervácie</td></tr>' : '' ?>
+                                <?php foreach ($rezervacieUzivatela['minule'] as $rezervacia) : ?>
+                                    <tr class="text-secondary">
+                                        <td><?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_OD] ?></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_DO] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg m-1">
+                        <div class=" border border-dark bg-success rounded p-1">
+                            <span class="pr-2">Rezervácie s trénerom <small class="text-muted">(<?= $pocetRezervacii['rezervacie_s_trenerom'] ?>)</small></span>
+                            <table class="table table-hover table-sm text-center">
+                                <tr>
+                                    <th>Dátum</th>
+                                    <th>Príchod</th>
+                                    <th>Odchod</th>
+                                </tr>
+
+                                <tr data-toggle="collapse" data-target="#buduce-skupinove-collapse" aria-expanded="true" aria-controls="buduce-skupinove-collapse">
+                                    <td class="font-weight-bold " colspan="3"><i class="fas fa-arrow-down"></i> Budúce rezervácie <i class="fas fa-arrow-down"></i></td>
+                                </tr>
+                                <tbody class="collapse" id="buduce-skupinove-collapse">
+                                <?= empty($rezervacieSkupinove['buduce']) ? '<tr class="text-warning"><td colspan="4">Uživateľ nemá žiadne budúce rezervácie</td></tr>' : '' ?>
+                                <?php $trenerId = false ?>
+                                <?php foreach ($rezervacieSkupinove['buduce'] as $rezervacia) : ?>
+                                    <?php if ($trenerId !== $rezervacia[TrenerManazer::TRENER_ID]) : ?>
+                                        <tr class="bg-dark ramcek-hore " >
+                                            <th colspan="3" class="">
+                                                <a style="color:  <?= $rezervacia[TrenerManazer::FARBA] ?>" href="administracia/osobne-udaje/<?= $rezervacia['uzivatel_id']?>">
+                                                    Tréner: <?= $rezervacia[TrenerManazer::PREZIVKA] ?>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        <?php $trenerId = $rezervacia[TrenerManazer::TRENER_ID] ?>
+                                    <?php endif; ?>
+
+                                    <tr class="text-warning">
+                                        <td><?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_OD] ?></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_DO] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+
+                                </tbody>
+                                <tr data-toggle="collapse" data-target="#minule-skupinove-collapse" aria-expanded="false" aria-controls="minule-skupinove-collapse">
+                                    <td class="font-weight-bold" colspan="3"><i class="fas fa-arrow-down"></i> Minulé rezervácie <i class="fas fa-arrow-down"></i></td>
+                                </tr>
+                                <tbody class="collapse" id="minule-skupinove-collapse">
+                                <?= empty($rezervacieSkupinove['minule']) ? '<tr class="text-warning"><td colspan="4">Uživateľ nemá žiadne minulé rezervácie</td></tr>' : '' ?>
+                                <?php $trenerId = false ?>
+                                <?php foreach ($rezervacieSkupinove['minule'] as $rezervacia) : ?>
+                                    <?php if ($trenerId !== $rezervacia[TrenerManazer::TRENER_ID]) : ?>
+                                        <tr class="bg-dark ramcek-hore">
+                                            <th colspan="3"  >
+                                                <a style="color: <?= $rezervacia[TrenerManazer::FARBA] ?>" href="administracia/osobne-udaje/<?= $rezervacia['uzivatel_id']?>">
+                                                    Tréner: <?= $rezervacia[TrenerManazer::PREZIVKA] ?>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        <?php $trenerId = $rezervacia[TrenerManazer::TRENER_ID] ?>
+                                        <tr class="text-secondary">
+                                            <th>Dátum</th>
+                                            <th>Príchod</th>
+                                            <th>Odchod</th>
+                                        </tr>
+                                    <?php endif; ?>
+
+                                    <tr class="text-secondary">
+                                        <td><?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_OD] ?></td>
+                                        <td><?= $rezervacia[RezervaciaManazer::CAS_DO] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-lg m-1">
+                        <div class=" border border-dark bg-success rounded p-1">
+                            <span class="pr-2 <?= $osobneUdaje[TrenerManazer::AKTIVNY] ? '' : 'text-muted preciarkni' ?>">Rezervácie s klientom <small class="text-muted">(<?= $pocetRezervacii['rezervacie_s_klientom'] ?>)</small></span>
+                            <table class="table table-hover table-sm text-center">
+                                <th>Dátum</th>
+                                <th>Príchod</th>
+                                <th>Odchod</th>
+
+
+                                <tr data-toggle="collapse" data-target="#buduce-trenera-collapse" aria-expanded="true" aria-controls="buduce-trenera-collapse">
+                                    <td class="font-weight-bold" colspan="3"><i class="fas fa-arrow-down"></i> Budúce rezervacie <i class="fas fa-arrow-down"></i></td>
+                                </tr>
+                                <tbody class="collapse" id="buduce-trenera-collapse">
+                                <?= empty($rezervacieTrenera['buduce']) ? '<tr class="text-warning"><td colspan="4">Uživateľ nemá žiadne budúce rezervácie</td></tr>' : '' ?>
+                                <?php foreach ($rezervacieTrenera['buduce'] as $rezervaciaId => $rezervacia) : ?>
+
+                                    <tr class="bg-danger ramcek-hore text-warning ">
+                                        <th><?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></th>
+                                        <th><?= $rezervacia[RezervaciaManazer::CAS_OD] ?></th>
+                                        <th><?= $rezervacia[RezervaciaManazer::CAS_DO] ?></th>
+                                    </tr>
+                                    <?php if ($rezervacia[PoznamkaManazer::POZNAMKA]): ?>
+                                        <tr class="text-center">
+                                            <td colspan="3">
+                                                <?= $rezervacia[PoznamkaManazer::POZNAMKA] ?>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
+
+                                    <?php $pocetKlientov = count($rezervacia['klient']); // kvoli zobrazeniue moznosti odstránenia?>
+
+                                    <?php foreach ($rezervacia['klient'] as $pcKlient => $klient) : ?>
+                                        <tr class="text-warning text-center">
+                                            <td colspan="3">
+                                                <?= $pcKlient+1 ?>.
+                                                <a href="administracia/osobne-udaje/<?= $klient['uzivatel_id']?>">
+                                                    <?= $klient['osoba'] ?>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                </tbody>
+                                <tr data-toggle="collapse" data-target="#minule-trenera-collapse" aria-expanded="false" aria-controls="minule-trenera-collapse">
+                                    <td class="font-weight-bold" colspan="3"><i class="fas fa-arrow-down"></i> Minulé rezervácie <i class="fas fa-arrow-down"></i></td>
+                                </tr>
+                                <tbody class="collapse" id="minule-trenera-collapse">
+                                <?= empty($rezervacieTrenera['minule']) ? '<tr class="text-warning"><td colspan="4">Uživateľ nemá žiadne minulé rezervácie</td></tr>' : '' ?>
+                                <?php foreach ($rezervacieTrenera['minule'] as $rezervaciaId => $rezervacia) : ?>
+
+                                    <tr class="bg-danger ramcek-hore text-secondary ">
+                                        <th><?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></th>
+                                        <th><?= $rezervacia[RezervaciaManazer::CAS_OD] ?></th>
+                                        <th><?= $rezervacia[RezervaciaManazer::CAS_DO] ?></th>
+                                    </tr>
+                                    <?php if ($rezervacia[PoznamkaManazer::POZNAMKA]): ?>
+                                        <tr class="text-center">
+                                            <td colspan="3">
+                                                <?= $rezervacia[PoznamkaManazer::POZNAMKA] ?>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
+
+                                    <?php $pocetKlientov = count($rezervacia['klient']); // kvoli zobrazeniue moznosti odstránenia?>
+
+                                    <?php foreach ($rezervacia['klient'] as $pcKlient => $klient) : ?>
+                                        <tr class="text-secondary">
+                                            <td colspan="3">
+                                                <?= $pcKlient+1 ?>.
+                                                <a href="administracia/osobne-udaje/<?= $klient['uzivatel_id']?>">
+                                                    <?= $klient['osoba'] ?>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <?= $_formular['csrf'] ?>
+
+            <div class="border border-light rounded p-2 my-1">
+                <div class="badge-dark rounded-top p-1 text-center"><strong class="text-success">Osoba</strong></div>
+                <div class="row no-gutters">
+                    <div class="col-12 col-sm-6 col-md-2 border border-dark rounded-left">
+                        <div class="font-weight-bold bg-danger p-1 rounded-left">
+                            <span>Meno</span>
+                        </div>
+                        <div class="p-1">
+                            <?= $_formular[OsobaDetailManazer::MENO] ?>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-2 border border-dark">
+                        <div class="font-weight-bold bg-danger p-1">
+                            <span>Priezvisko</span>
+                        </div>
+                        <div class="p-1">
+                            <?= $_formular[OsobaDetailManazer::PRIEZVISKO] ?>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 border border-dark">
+                        <a title="Zavolať" href="tel:<?= $osobneUdaje[OsobaDetailManazer::TEL] ?>">
+                            <div class="font-weight-bold bg-danger p-1">
+                                Telefón
+                            </div>
+                        </a>
+                        <div class="p-1">
+                            <?= $_formular[OsobaDetailManazer::TEL] ?>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 border border-dark rounded-right">
+                        <a title="Poslať Email" href="mailto:<?= $osobneUdaje[OsobaDetailManazer::EMAIL] ?>">
+                            <div class="font-weight-bold bg-danger p-1 rounded-right">
+                                Email
+                            </div>
+                        </a>
+                        <div class="p-1">
+                            <?= $_formular[OsobaDetailManazer::EMAIL] ?>
+                        </div>
+                    </div>
+                </div>
+                <?php if($osobneUdaje[TrenerManazer::AKTIVNY]) : ?>
+                    <div class="badge-dark rounded-top p-1 text-center"><strong class="text-success">Tréner</strong></div>
+                    <div class="row no-gutters">
+                        <div class="col-12 col-sm-6 col-md-2 border border-dark rounded-left">
+                            <div class="font-weight-bold bg-danger p-1">
+                                <span>Prezívka</span>
+                            </div>
+                            <div class="p-1">
+                                <?= $_formular[TrenerManazer::PREZIVKA] ?>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2 border border-dark">
+                            <div class="font-weight-bold bg-danger p-1">
+                                <span>Farba</span>
+                            </div>
+                            <div class="p-1">
+                                <?= $_formular[TrenerManazer::FARBA] ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <?= $_formular['upravit-tlacidlo'] ?>
+            </div>
+    </form>
+</div>

@@ -1,0 +1,128 @@
+<?php use Micho\Formular\Validator;
+      use App\RezervaciaModul\Model\PermanentkaTypManazer;
+      use App\RezervaciaModul\Model\PermanentkaManazer;
+      use App\RezervaciaModul\Model\RezervaciaManazer;
+      use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;?>
+
+<div class="row align-items-center no-gutters">
+    <div class="col-md-4 d-block justify-content-center justify-content-sm-start text-center text-md-left">
+        <a href="sluzba/<?= $typ ?>/rezervacia" class="btn btn-outline-success font-weight-bold">Dnes je: <time class="font-weight-normal"><?= FormatPomocne::prveVelke(FormatPomocne::denSlovensky($aktualnyDatum)) ?> <?= FormatPomocne::formatujDateTime($aktualnyDatum) ?></time></a>
+    </div>
+    <div class="col-md-8 pl-md-4">
+        <form method="post" id="<?= $_formularKalendar['formularId'] ?>" class="form-inline my-1 justify-content-md-start justify-content-center ">
+            <?= $_formularKalendar['csrf'] ?>
+            <div>
+                <?= $_formularKalendar['rok'] ?>
+            </div>
+            <div>
+                <?= $_formularKalendar['mesiac'] ?>
+            </div>
+            <div >
+                <?= $_formularKalendar['zobrazit'] ?>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="border border-dark p-1 rounded-lg ">
+    <?= $_rezervaciaGymKalendar ?>
+
+
+    <?php if(isset($_formularRezervacia)) : // doČastné obmedzenie ... kalendar a rezerváciu moŽe vykonať len registovaný uživateľ  ?>
+        <div class="bg-success p-md-2 mt-1 rounded text-center font-weight-bold">Vybratý dátum: <time class="font-weight-normal"><?= FormatPomocne::prveVelke(FormatPomocne::denSlovensky($vybratyDatum)) ?> <?=  FormatPomocne::formatujDateTime($vybratyDatum) ?></time></div>
+        <?php if($uzivatel || $vybratyDatum >= $aktualnyDatum) : ?>
+            <div class="row mt-1 no-gutters">
+                <div class="col-md border border-dark rounded p-1 mb-0 mr-1">
+                    <h4 class="text-center">Rezervácie</h4>
+                    <?= $_rezervacieHtml ?>
+                </div>
+
+                <div class="col-md border border-dark rounded p-1 ml-1">
+
+                    <?php if($_formularRezervacia) : ?>
+                        <h4 class="text-center">Rezervácia</h4>
+                        <div class="no-gutters bg-dark rounded text-white text-center p-1">
+                            <span>Permanentka:</span>
+                            <div class="d-inline-block">
+                                <?php if (empty($permanentka)) : ?>
+                                    <span class="btn btn-secondary">Neaktívna</span>
+                                <?php else: ?>
+                                    <span class="btn btn-success ">Aktívna </span>
+                                    <span class="btn btn-success "><?= $permanentka[PermanentkaTypManazer::NAZOV] ?></span>
+                                    <span class="btn btn-success "><?= $permanentka[PermanentkaManazer::ZOSTATOK_VSTUPOV] ? 'Zostatok-' . $permanentka[PermanentkaManazer::ZOSTATOK_VSTUPOV] : 'do ' . FormatPomocne::formatujDatumSlovensko($permanentka[PermanentkaManazer::DATUM]) ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <form method="post" id="<?= $_formularRezervacia['formularId'] ?>" class="text-center ">
+                                <?= $_formularRezervacia['csrf'] ?>
+                                <div class="row justify-content-center font-weight-bold mt-3">
+                                    <div class="form-group">
+                                        <?= $_formularRezervacia[RezervaciaManazer::CAS_OD] ?>
+                                    </div>
+                                    <div class="mx-lg-5 mx-2">
+                                        <div class="d-flex mb-1">
+                                            <i class="far fa-clock"></i>
+                                        </div>
+                                        <div>
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <?= $_formularRezervacia[RezervaciaManazer::CAS_DO] ?>
+                                    </div>
+                                </div>
+
+                                <?php if(!$prihlaseny) : ?>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="">
+                                            <div class="form-row">
+                                                <div class="form-group col-5">
+                                                    <?= $_formularRezervacia[OsobaDetailManazer::MENO] ?>
+                                                </div>
+                                                <div class="form-group col">
+                                                    <?= $_formularRezervacia[OsobaDetailManazer::PRIEZVISKO] ?>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-5">
+                                                    <?= $_formularRezervacia[OsobaDetailManazer::TEL] ?>
+                                                </div>
+                                                <div class="form-group col">
+                                                    <?= $_formularRezervacia[OsobaDetailManazer::EMAIL] ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <small class="form-text text-muted text-left"><?= Validator::PATTERN_ANTISPAM_ROK['popis'] ?></small>
+                                                <?= $_formularRezervacia['antispam'] ?>
+                                            </div>
+                                            <div class="form-check">
+                                                <?= $_formularRezervacia['suhlas'] ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?= $_formularRezervacia['rezervovat-tlacidlo'] ?>
+                            </form>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div>
+
+        <?php else: ?>
+            <div class="bg-success p-md-2 mt-1 rounded text-center font-weight-bold">Pre zobrazenie minulých rezervácií sa prihláste</div>
+        <?php endif; ?>
+    <?php else: ?>
+        <h3 class="bg-danger rounded text-center font-weight-bold p-2 px-1\">Pre zobrazenie rezervácií sa prihláste!</h3>
+    <?php endif; ?>
+</div>
+
+
+
+
+
+
+
+

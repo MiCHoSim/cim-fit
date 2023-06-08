@@ -1,0 +1,12 @@
+<?= $menu->vypisPohlad() ?>
+
+<?= isset($clanokKontroler) ? $clanokKontroler->vypisPohlad() : $rezervacia->vypisPohlad(); // vypiše pohľad článku?>
+
+<?php if (isset($galeria)) : // vypiše pohľad článku?>
+<h3 class="text-center">Fotogaléria</h3>
+        <?= DialogPomocne::zostavDialogCarouselGaleria($galeria, $cestaObrazok) ?>
+        <script src="js/carouselPrepnutie.js"></script>
+<?php endif; ?>
+
+
+

@@ -1,0 +1,75 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        h4 {
+            text-align: center;
+        }
+        .centruj {
+            margin: auto;
+            max-width: 24em;
+        }
+        td, th {
+            padding: 0.2rem 1rem;
+        }
+        th {
+            text-align: right;
+        }
+        h5 {
+            margin: 25px 0 0 20px;
+            text-decoration: underline;
+        }
+        h4 {
+            text-align: center;
+        }
+        th {
+            text-align: right;
+        }
+        .text-vlavo {
+            text-align: left;
+        }
+        .vlavo
+        {
+            float: left;
+        }
+        .cistic
+        {
+            clear: both;
+        }
+        .block {
+            display: inline-block;
+        }
+        .hlavicka-tabulka{
+            background: #7a7676;
+        }
+        .kontakt-nas{
+            border-collapse: collapse;
+        }
+        .kontakt-nas a {
+            text-decoration: none;
+            color: black;
+        }
+        .sprava {
+            border: 1px solid black;;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="vlavo">
+    <?= $kontroler->vypisPohlad() // vypiše konkrétny pohľad ?>
+
+    <p><p>S pozdravom a prianím pekného dňa a príjemného cvičenia</p></p>
+    <h3>Tím <a href="https://<?= $domena ?>"><?= $domenaNazov ?></a></h3>
+
+</div>
+<a class="vlavo" href="https://<?= $domena ?>">
+    <h1>
+        <img src="https://<?= $domena ?>/obrazky/logo/logo_stredne.png" alt="<?= $domenaNazov ?>">
+    </h1>
+</a>
+<div class="cistic"></div>
+
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer; ?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="d-flex justify-content-center">
+    <table class="table table-sm text-center w-auto table-dark">
+        <thead>
+            <tr class="bg-danger">
+                <th  colspan="3">Administrátory Webu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>P.č.</th>
+                <th class="text-left">Administrátor</th>
+                <th>Odstrániť</th>
+            </tr>
+        <?php foreach ($admin as $pc =>$adm) : ?>
+            <tr>
+                <td><?= $pc + 1 ?>.</td>
+                <td class="text-left">
+                    <a href="administracia/osobne-udaje/<?= $adm['uzivatel_id']?>">
+                        <?= $adm['osoba'] ?>
+                    </a>
+                </td>
+                <td>
+                    <?= DialogPomocne::zostavDialogOdstranenia($adm[UzivatelManazer::UZIVATEL_ID], 'administracia/odstran-admin/' . $adm[UzivatelManazer::UZIVATEL_ID] ,'Skutočne si prajete odstrániť administrátorské práva pre tohto uživateľa') ?>
+                </td>
+            </tr>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+<div class="offset-lg-4 col-lg-4 offset-md-3 col-md-6 offset-sm-2 col-sm-8">
+    <form method="post" id="<?= $_formular['formularId'] ?>">
+        <?= $_formular['csrf'] ?>
+        <div class="form-group">
+            <?= $_formular['email'] ?>
+        </div>
+        <?= $_formular['admin-tlacidlo']; ?>
+    </form>
+</div>
+

@@ -1,0 +1,69 @@
+<?php use Micho\Formular\Validator;
+      use App\AdministraciaModul\Uzivatel\Model\OsobaManazer;
+      use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;
+      use App\AdministraciaModul\Uzivatel\Model\TrenerManazer;?>
+
+<?= isset($menu) ? $menu->vypisPohlad() : '' ?>
+
+<div class="d-flex justify-content-center">
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="text-center">
+        <?= $_formular['csrf'] ?>
+        <div class="form-row">
+            <div class="form-group col-5">
+                <?= $_formular[OsobaDetailManazer::MENO] ?>
+            </div>
+            <div class="form-group col">
+                <?= $_formular[OsobaDetailManazer::PRIEZVISKO] ?>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-5">
+                <?= $_formular[OsobaDetailManazer::TEL] ?>
+            </div>
+            <div class="form-group col">
+                <?= $_formular[OsobaDetailManazer::EMAIL] ?>
+            </div>
+        </div>
+
+        <?php if(isset($trener) && $trener) : ?>
+            <div class="badge-dark rounded-top p-1 text-center"><strong class="text-success">Tréner</strong></div>
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <?= $_formular[TrenerManazer::PREZIVKA] ?>
+                </div>
+                <div class="form-group col">
+                    <?= $_formular[TrenerManazer::FARBA] ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if($registracia) : ?>
+            <small class="form-text text-muted"><?= Validator::PATTERN_HESLO['popis'] ?></small>
+            <div class="form-row">
+                <div class="form-group col">
+                    <?= $_formular[\App\AdministraciaModul\Uzivatel\Model\UzivatelManazer::HESLO] ?>
+                </div>
+                <div class="form-group col">
+                    <?= $_formular['heslo_znova'] ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if($registracia) : // toto taktiez ta podmienka tu uz nebude musiet byť ?>
+            <div class="form-group">
+                <small class="form-text text-muted text-left"><?= Validator::PATTERN_ANTISPAM_ROK['popis'] ?></small>
+                <?= $_formular['antispam'] ?>
+            </div>
+            <div class="form-check">
+                <?= $_formular['suhlas'] ?>
+            </div>
+            <div class="form-row my-2">
+                <div class="offset-3 col-6 offset-sm-5 col-sm-2 text-center">
+                    <?= $_formular['pin'] ?>
+                </div>
+            </div>
+            <?= $_formular['registrovat-tlacidlo'] ?>
+        <?php else: ?>
+            <?= $_formular['upravit-tlacidlo'] ?>
+        <?php endif; ?>
+    </form>
+</div>

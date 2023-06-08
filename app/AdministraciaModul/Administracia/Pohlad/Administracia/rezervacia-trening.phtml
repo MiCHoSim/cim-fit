@@ -1,0 +1,138 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\KlientManazer;
+use App\RezervaciaModul\Model\RezervaciaManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;
+use App\RezervaciaModul\Model\PoznamkaManazer;
+use App\RezervaciaModul\Model\SkupinaManazer;
+?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="bg-dark rounded-top">
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center align-items-end m-0 p-1 ">
+        <?= $_formular['csrf'] ?>
+        <div><?= $_formular[KlientManazer::KLIENT_ID] ?></div>
+        <div><?= $_formular[RezervaciaManazer::DATUM] ?></div>
+        <div><?= $_formular[RezervaciaManazer::CAS_OD] ?></div>
+        <div><?= $_formular[RezervaciaManazer::CAS_DO] ?></div>
+        <div><?= $_formular[PoznamkaManazer::POZNAMKA] ?></div>
+        <div><?= $_formular['pocet'] ?></div>
+        <div><?= $_formular['rezervovat-tlacidlo'] ?></div>
+    </form>
+</div>
+<div class="text-center pb-1">
+    <a href="sluzba/gym/rezervacia" class="btn btn-outline-success">Zobraziť rezervačný kalendár</a>
+</div>
+<div class="d-flex justify-content-center">
+    <table class="w-auto table table-hover table-sm table-bordered table-striped table-dark text-center">
+
+        <?php $pc = 1 ?>
+        <tr data-toggle="collapse" data-target="#buduce-collapse" aria-expanded="true" aria-controls="buduce-collapse">
+            <td class="font-weight-bold" colspan="5"><i class="fas fa-arrow-down"></i> Budúce skupiny <i class="fas fa-arrow-down"></i></td>
+        </tr>
+        <tbody class="collapse show" id="buduce-collapse">
+        <?= empty($skupiny['buduce']) ? '<tr class="text-warning"><td colspan="4">Nemáte žiadne budúce skupiny</td></tr>' : '' ?>
+        <?php foreach ($skupiny['buduce'] as $rezervaciaId => $rezervacia) : ?>
+
+            <tr class="bg-danger ramcek-hore text-warning ">
+                <td class="text-center"><?= $pc ?>.</td>
+                <th>Dátum: <?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></th>
+                <th>Príchod: <?= $rezervacia[RezervaciaManazer::CAS_OD] ?></th>
+                <th>Odchod: <?= $rezervacia[RezervaciaManazer::CAS_DO] ?></th>
+                <td class="text-center"> <?= DialogPomocne::zostavDialogOdstranenia($rezervaciaId, 'rezervacia/zrus-rezervaciu/' . $rezervaciaId . '?presmeruj=' . $aktualnaUrl, 'Skutočne si prajete zrušiť skupinový trening?') ?> </td>
+            </tr>
+            <?php if ($rezervacia[PoznamkaManazer::POZNAMKA]): ?>
+                <tr class="text-center">
+                    <td colspan="5">
+                        <?= $rezervacia[PoznamkaManazer::POZNAMKA] ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <?php $pocetKlientov = count($rezervacia['klient']); // kvoli zobrazeniue moznosti odstránenia?>
+
+            <?php foreach ($rezervacia['klient'] as $pcKlient => $klient) : ?>
+                <tr class="text-warning">
+                    <td colspan="4" class="pl-2 pl-lg-5">
+                        <?= $pcKlient+1 ?>.
+                        <?php if (isset($klient[OsobaDetailManazer::TEL])) : ?>
+                            <?= $klient['osoba'] ?>
+                            <small>
+                                (tel.:
+                                <a title="Zavolať" href="tel:<?= $klient[OsobaDetailManazer::TEL] ?>">
+                                    <?= $klient[OsobaDetailManazer::TEL] ?>
+                                </a>
+                                email:
+                                <a title="Poslať Email" href="mailto:<?= $klient[OsobaDetailManazer::EMAIL] ?>">
+                                    <?= $klient[OsobaDetailManazer::EMAIL] ?>
+                                </a>
+                                )
+                            </small>
+                        <?php else: ?>
+                            <a href="administracia/osobne-udaje/<?= $klient['uzivatel_id']?>">
+                                <?= $klient['osoba'] ?>
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                    <?php if($pocetKlientov > 1) : ?>
+                        <td class="text-center"> <?= DialogPomocne::zostavDialogOdstranenia($klient[SkupinaManazer::SKUPINA_ID], 'rezervacia/vymaz-osobu/' . $klient[SkupinaManazer::SKUPINA_ID] . '?presmeruj=' . $aktualnaUrl, 'Skutočne si prajete vymazať osobu s Tréningu?') ?> </td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+            <?php $pc++ ?>
+        <?php endforeach; ?>
+        </tbody>
+        <tr data-toggle="collapse" data-target="#minule-collapse" aria-expanded="false" aria-controls="minule-collapse">
+            <td class="font-weight-bold" colspan="5"><i class="fas fa-arrow-down"></i> Minulé skupiny <i class="fas fa-arrow-down"></i></td>
+        </tr>
+        <tbody class="collapse" id="minule-collapse">
+        <?= empty($skupiny['minule']) ? '<tr class="text-warning"><td colspan="4">Nemáte žiadne minulé skupiny</td></tr>' : '' ?>
+        <?php foreach ($skupiny['minule'] as $rezervaciaId => $rezervacia) : ?>
+
+            <tr class="bg-danger ramcek-hore text-secondary ">
+                <td class="text-center"><?= $pc ?>.</td>
+                <th>Dátum: <?= FormatPomocne::peknyDatum($rezervacia[RezervaciaManazer::DATUM]) ?><small class="small">(<?= FormatPomocne::denSlovensky($rezervacia[RezervaciaManazer::DATUM]) ?>)</small></th>
+                <th>Príchod: <?= $rezervacia[RezervaciaManazer::CAS_OD] ?></th>
+                <th>Odchod: <?= $rezervacia[RezervaciaManazer::CAS_DO] ?></th>
+                <td class="text-center"> <?= DialogPomocne::zostavDialogOdstranenia($rezervaciaId, 'rezervacia/zrus-rezervaciu/' . $rezervaciaId . '?presmeruj=' . $aktualnaUrl, 'Skutočne si prajete zrušiť skupinový trening?') ?> </td>
+
+            </tr>
+            <?php if ($rezervacia[PoznamkaManazer::POZNAMKA]): ?>
+                <tr class="text-center">
+                    <td colspan="5">
+                        <?= $rezervacia[PoznamkaManazer::POZNAMKA] ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <?php $pocetKlientov = count($rezervacia['klient']); // kvoli zobrazeniue moznosti odstránenia?>
+
+            <?php foreach ($rezervacia['klient'] as $pcKlient => $klient) : ?>
+                <tr class="text-secondary">
+                    <td colspan="4" class="pl-2 pl-lg-5">
+                        <?= $pcKlient+1 ?>.
+                        <?php if (isset($klient[OsobaDetailManazer::TEL])) : ?>
+                            <?= $klient['osoba'] ?>
+                            <small>
+                                (tel.:
+                                <a title="Zavolať" href="tel:<?= $klient[OsobaDetailManazer::TEL] ?>">
+                                    <?= $klient[OsobaDetailManazer::TEL] ?>
+                                </a>
+                                email:
+                                <a title="Poslať Email" href="mailto:<?= $klient[OsobaDetailManazer::EMAIL] ?>">
+                                    <?= $klient[OsobaDetailManazer::EMAIL] ?>
+                                </a>
+                                )
+                            </small>
+                        <?php else: ?>
+                            <a href="administracia/osobne-udaje/<?= $klient['uzivatel_id']?>">
+                                <?= $klient['osoba'] ?>
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <?php $pc++ ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

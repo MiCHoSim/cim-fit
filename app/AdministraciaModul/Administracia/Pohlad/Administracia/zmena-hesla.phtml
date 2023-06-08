@@ -1,0 +1,23 @@
+<?php use Micho\Formular\Validator;
+      use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer; ?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="d-flex justify-content-center">
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="text-center">
+        <?= $_formular['csrf'] ?>
+        <div class="form-group">
+            <?= $_formular['stare_heslo'] ?>
+        </div>
+        <small class="form-text text-muted"><?= Validator::PATTERN_HESLO['popis'] ?></small>
+        <div class="form-row">
+            <div class="form-group col">
+                <?= $_formular[UzivatelManazer::HESLO] ?>
+            </div>
+            <div class="form-group col">
+                <?= $_formular['heslo_znova'] ?>
+            </div>
+        </div>
+        <?= $_formular['zmena-hesla-tlacidlo'] ?>
+    </form>
+</div>

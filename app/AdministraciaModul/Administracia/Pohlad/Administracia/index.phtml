@@ -1,0 +1,9 @@
+<?= $menu->vypisPohlad() ?>
+
+<nav class="d-flex justify-content-center bg-primary rounded ">
+    <div class="nav font-weight-bold <?= $trieda['stlpec'] ?>">
+        <?php foreach ($menu as $nazov => $polozky) : ?>
+            <?= DropdownPomocne::drop($trieda['smer'], $nazov, $polozky) ?>
+        <?php endforeach; ?>
+    </div>
+</nav>

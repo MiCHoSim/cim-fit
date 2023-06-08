@@ -1,0 +1,67 @@
+<?php use App\ClanokModul\Model\ClanokManazer; ?>
+<?= $menu->vypisPohlad() ?>
+
+<div class="row font-weight-bold">
+    <div class="offset-lg-2 col-lg-8">
+        <form method="post" id="<?= $_formular['formularId'] ?>" enctype="multipart/form-data">
+            <?= $_formular['csrf'] ?>
+            <div class="form-group">
+                <?= $_formular[ClanokManazer::CLANOK_ID] ?>
+            </div>
+            <div class="form-check d-flex justify-content-center">
+                <?= $_formular[ClanokManazer::VEREJNY] ?>
+            </div>
+            <div class="form-group row">
+                <?= $_formular[ClanokManazer::CLANOK_TYP_ID] ?>
+            </div>
+
+            <div class="border border-info rounded p-2 m-3">
+                <div class="text-center text-warning">
+                    <p>Pre pridanie článku typu Tréning/Strava, je potrebné pridať titulný obrázok</p>
+                </div>
+                <div class="form-group d-flex justify-content-center m-0">
+                    <?= $_formular['obrazok'] ?>
+                </div>
+                <?php if ($titulnyObrazok) : ?>
+                    <div class="text-center ">
+                        <img class="img-fluid " src="<?= $titulnyObrazok ?>" alt="Titulny Obrazok">
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="form-group row mb-0">
+                <?= $_formular[ClanokManazer::URL] ?>
+            </div>
+            <div class="mb-3">
+                <small class="">URL článku musí obsahovať iba malé písmena, v pŕipade, že sa skladá z dvoch slov môžte na oddelenie použiť "-". V prípade úpravy url môže dôjisť k rozhadzaniu článkov.</small>
+            </div>
+
+            <div class="form-group row">
+                <?= $_formular[ClanokManazer::TITULOK] ?>
+            </div>
+            <div class="form-group row">
+                <?= $_formular[ClanokManazer::POPISOK] ?>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="px-2 font-weight-bold border-top border-bottom border-primary rounded-lg">
+    <div class="form-group text-center">
+        <?= $_formular[ClanokManazer::OBSAH] ?>
+    </div>
+</div>
+<div class="text-center">
+    <?= $_formular['clanok-tlacidlo'] ?>
+</div>
+
+<script src="https://cdn.tiny.cloud/1/mmbae8fyxgmxf8orwjwbbdwrs8l0hre4r4jjwjoq9z27v6vj/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script type="text/javascript" src="js/tinymce/tinymce.init.js"></script>
+<script type="text/javascript">
+    initTinyMce("obsah");
+</script>
+
+
+
+
+

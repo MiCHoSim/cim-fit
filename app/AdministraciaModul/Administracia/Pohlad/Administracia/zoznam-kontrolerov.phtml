@@ -1,0 +1,35 @@
+<?php use App\ZakladModul\SpravaPoziadaviek\Model\SpravaPoziadaviekManazer; ?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="d-flex justify-content-center">
+    <table class="table table-responsive table-sm table-bordered table-striped table-dark w-auto">
+        <tr class="text-center">
+            <th>Titulok</th>
+            <th>Url</th>
+            <th>Popisok</th>
+            <th>Kontroler</th>
+            <th>Edit.</th>
+        </tr>
+        <?php foreach ($kontrolery as $kontroler) : ?>
+            <tr class="">
+                <td class="">
+                    <strong><a href="<?= $kontroler[SpravaPoziadaviekManazer::URL] ?>"><?= $kontroler[SpravaPoziadaviekManazer::TITULOK] ?></a></strong>
+                </td>
+                <td>
+                    <?= $kontroler[SpravaPoziadaviekManazer::URL] ?>
+                </td>
+                <td>
+                    <?= $kontroler[SpravaPoziadaviekManazer::POPISOK] ?>
+                </td>
+                <td class="text-wrap">
+                    <?= $kontroler[SpravaPoziadaviekManazer::KONTROLER] ?>
+                </td>
+                <td class="align-middle text-center text-nowrap">
+                    <a href="administracia/editor/kontroler/<?= $kontroler[SpravaPoziadaviekManazer::URL] ?>" class="btn btn-light btn-sm border-dark kontrolka"><i title="Editovať" class="fa fa-pencil-alt"></i></a>
+                    <?= DialogPomocne::zostavDialogOdstranenia($kontroler[SpravaPoziadaviekManazer::KONTROLER_ID], 'administracia/odstran/kontroler/' . $kontroler[SpravaPoziadaviekManazer::URL], 'Skutočne si prajete odstrániť vybraný Kontrolér?') ?>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    </table>
+</div>

@@ -1,0 +1,17 @@
+<?php use App\RezervaciaModul\Model\PermanentkaTypManazer;
+use App\RezervaciaModul\Model\PermanentkaManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaManazer;
+use App\RezervaciaModul\Model\RezervaciaManazer; ?>
+
+<div class="bg-dark rounded-top">
+    <div class="bg-dark rounded-top">
+        <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center align-items-end m-0 p-1">
+            <?= $_formular['csrf'] ?>
+            <div><?= $_formular[OsobaManazer::OSOBA_ID] ?></div>
+            <div><?= $_formular[RezervaciaManazer::DATUM] ?></div>
+            <div><?= $_formular[RezervaciaManazer::CAS_OD] ?></div>
+            <div><?= $_formular[RezervaciaManazer::CAS_DO] ?></div>
+            <div><?= $_formular['rezervacia-pridat-tlacidlo'] ?></div>
+        </form>
+    </div>
+</div>

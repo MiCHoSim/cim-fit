@@ -1,0 +1,216 @@
+#logo {
+    max-height: 58px;
+}
+
+#avatar {
+    border: rgba(50, 11, 191, 0.8) 1px solid;
+    border-radius: 5px;
+    margin: 3px 0 3px 0;
+    padding: 2px;
+    font-weight: bolder;
+    color: black !important;
+}
+#avatar img {
+    max-height: 50px;
+}
+
+#avatar:hover {
+    color: white !important;
+    box-shadow: 10px 0 7px rgb(255,255,255), -10px 0 7px rgb(255,255,255), 0 10px 7px rgb(255,255,255), 0 -10px 7px rgb(255,255,255);
+}
+
+.odkaz {
+    color: #42a726 !important;
+}
+
+.odkaz:hover {
+    color: #26ff00 !important;
+}
+
+.aktivna-tlacidlo {
+    color: blue !important;
+    background: white !important;
+    border-bottom: white !important;
+    border-radius: 5px 5px 0 0 !important;
+    margin-top: 1px !important;
+}
+.aktivna-tlacidlo:hover {
+    color: blue !important;
+    background: #0062cc !important;
+    color: white !important;
+}
+.aktivna, .dropdown-item:hover {
+    background: #0062cc !important;
+    color: white !important;
+    border-radius: 5px;
+}
+
+.kontrolka:hover {
+    background: black !important;
+    color: #26ff00 !important;
+}
+
+.karty-text-menu {
+    text-transform: uppercase;
+    color: white;
+    font-family: "Wide Latin";
+    font-weight: bold;
+    text-shadow: 0 0 7px black, 10px 0 7px black, -10px 0 7px black, 0 10px 7px black, 0 -10px 7px black;
+}
+
+.karty-mensie {
+    max-height: 100px;
+}
+
+.karty {
+    opacity: 0.95;
+}
+.karty img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 25px;
+}
+.karty:hover {
+    border-radius: 25px;
+    box-shadow: 0 0 35px rgb(89, 255, 0);
+    opacity: 1;
+}
+
+.pozadie {
+    background: #F0F0F2 url('../obrazky/pozadie.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.clanok-pozadie {
+    background-color: rgba(36, 35, 35,0.9);
+}
+
+.kontakt-pozadie {
+    background-color: rgba(28, 28, 34, 0.95);
+    color: white;
+}
+
+.nadpisy {
+    color: rgb(122, 191, 11);
+    font-family: "Wide Latin";
+}
+.pozadie-farba {
+    background: rgb(50, 11, 191) !important;
+}
+
+.sprava-info {
+    background: #5f6bf8;
+}
+.sprava-uspech {
+    background: #1cac1c;
+}
+.sprava-chyba {
+    background: #ee4147;
+}
+.opacity-90{
+    opacity: 0.9;
+}
+
+.bg-cookies {
+    background: rgba(12, 11, 11, 0.8) !important;
+}
+.info-okno {
+    top: 15% !important;
+    background: rgba(40, 167, 69, 0.95) !important;
+}
+.info-okno-rolovanie {
+    height: 75vh;
+    overflow: auto !important;
+}
+
+div > nav ul li:last-child{
+    border-right: none !important;
+}
+
+.modal-velky {
+    margin: 10px auto !important;
+    max-height: max-content !important;
+    max-width: max-content !important;
+}
+.modal-obrazok{
+    max-height: 80vh !important;
+    max-width: 95vw !important;
+}
+
+td > a {
+    color: inherit;
+}
+
+.img-cover{
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.letter-spacing-5{
+    letter-spacing: 5px;
+}
+.pin  input[type="text"]{
+    max-width: 40px;
+    max-height: 45px;
+    text-align: center;
+    margin: 3px;
+    background: #6c757d;
+    color: black;
+    border-color: #ffc107;
+    font-size: 1.70rem;
+    font-weight: 500;
+}
+
+.ramcek-hore{
+    border-top: white solid 2px;
+    border-left: white solid 2px;
+    border-right: white solid 2px;
+}
+
+.karty-clanky {
+    border: 1px solid #dee2e6 !important;
+    border-color: #17a2b8 !important;
+    background: transparent !important;
+    opacity: 0.70 !important;
+}
+.karty-clanky:hover {
+    background: black !important;
+    border-color: yellow !important;
+    opacity: 1 !important;
+}
+.sirka-75px{
+    width: 75px !important;
+}
+
+.vpravo-hore {
+    position: absolute !important;
+    top: 5% !important;
+    right: 1% !important;
+    font-size: 0.55rem !important;
+}
+.preciarkni {
+    text-decoration: Line-Through;
+}
+
+
+.autohide{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+}
+.scrolled-down{
+    transform:translateY(-100%); transition: all 0.5s ease-in-out;
+}
+.scrolled-up{
+    transform:translateY(0); transition: all 0.3s ease-in-out;
+}
+
+
+
+
+

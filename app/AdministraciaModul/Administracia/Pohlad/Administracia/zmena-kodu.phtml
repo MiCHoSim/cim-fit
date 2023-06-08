@@ -1,0 +1,11 @@
+<?= $menu->vypisPohlad() ?>
+
+    <form method="post" id="<?= $_formular['formularId'] ?>" class="form-inline justify-content-center m-0 p-1 pin">
+        <?= $_formular['csrf'] ?>
+        <div><?= $_formular['kod_1'] ?></div>
+        <div><?= $_formular['kod_2'] ?></div>
+        <div><?= $_formular['kod_3'] ?></div>
+        <div><?= $_formular['kod_4'] ?></div>
+
+        <div><?= $_formular['kod-tlacidlo']; ?></div>
+    </form>

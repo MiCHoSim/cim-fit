@@ -1,0 +1,38 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;
+use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer;
+?>
+
+<div class="d-flex justify-content-center">
+    <table class="w-auto table table-hover table-sm table-bordered table-striped table-dark table-responsive-md">
+        <thead class="bg-danger">
+        <tr>
+            <th class="text-center">P.č</th>
+            <th>Meno Priezvisko</th>
+            <th>Telefón</th>
+            <th>Email</th>
+            <th>Registrovaný</th>
+            <th>Posledné prihlásenie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($uzivatelia as $kluc => $uzivatel) : ?>
+            <tr>
+                <td class="text-center"><?= $kluc + 1 ?>.</td>
+                <td>
+                    <a href="administracia/osobne-udaje/<?= $uzivatel['uzivatel_id']?>">
+                        <?= $uzivatel['osoba'] ?>
+                    </a>
+                </td>
+                <td><a href="tel:<?= $uzivatel[OsobaDetailManazer::TEL] ?>"><?= $uzivatel[OsobaDetailManazer::TEL] ?></a></td>
+                <td><a href="mailto:<?= $uzivatel[OsobaDetailManazer::EMAIL] ?>"><?= $uzivatel[OsobaDetailManazer::EMAIL] ?></a></td>
+                <td>
+                    <?= $uzivatel[UzivatelManazer::DATUM_REGISTRACIE]? FormatPomocne::formatujDatumCasNaTvar($uzivatel[UzivatelManazer::DATUM_REGISTRACIE], 'j.n.Y / G:i:s') : 'NULL' ?>
+                </td>
+                <td>
+                    <?= $uzivatel[UzivatelManazer::DATUM_PRIHLASENIA] ? FormatPomocne::formatujDatumCasNaTvar($uzivatel[UzivatelManazer::DATUM_PRIHLASENIA], 'j.n.Y - G:i:s') : 'NULL'?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

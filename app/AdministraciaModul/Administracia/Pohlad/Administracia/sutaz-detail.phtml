@@ -1,0 +1,71 @@
+<?php use App\SutazModul\Model\SutazManazer;
+use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;?>
+<?= $menu->vypisPohlad() ?>
+
+<div class="d-flex justify-content-center">
+    <table class="table table-sm table-bordered table-striped w-auto table-dark">
+        <thead>
+        <tr class="text-center">
+            <th>Názov</th>
+            <th>Typ</th>
+            <th>Info</th>
+            <th>Dátum/čas</th>
+            <th>Aktívna do</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+        <tr>
+            <td>
+                <?= $sutaz['sutaz_nazov']; ?>
+            </td>
+            <td title="<?= $sutaz['popis']; ?>">
+                <?= $sutaz['sutaz_typ_nazov']; ?>
+            </td>
+            <td>
+                <?= $sutaz[SutazManazer::INFO]; ?>
+            </td>
+            <td>
+                <?= FormatPomocne::peknyDatum($sutaz[SutazManazer::DATUM_SUTAZ]) . ' - ' . FormatPomocne::formatujDatumCasNaTvar($sutaz[SutazManazer::CAS_SUTAZ], 'G:i') . ' (' . FormatPomocne::formatujDatumCasNaTvar($sutaz[SutazManazer::DATUM_SUTAZ], 'Y') . ')' ?>
+            </td>
+            <td>
+                <?= FormatPomocne::peknyDatum($sutaz[SutazManazer::DATUM_PRIHLASENIE]); ?>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h3 class="text-center">Účastnici</h3>
+
+<div class="d-flex justify-content-center">
+    <table class="table table-sm table-bordered table-striped w-auto table-dark">
+        <thead>
+        <tr class="text-center">
+            <th>P.č.</th>
+            <th>Meno</th>
+            <th>Priezvisko</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+        <?php $poradie = 1; ?>
+
+        <?php foreach ($ucastnici as $ucastnik): ?>
+            <tr>
+                <td class="text-center">
+                    <strong><?= $poradie++ ?>.</strong>
+                </td>
+                <td>
+                    <a href="administracia/osobne-udaje/<?= $ucastnik['uzivatel_id']?>">
+                        <?= $ucastnik[OsobaDetailManazer::MENO]; ?>
+                    </a>
+                </td>
+                <td>
+                    <a href="administracia/osobne-udaje/<?= $ucastnik['uzivatel_id']?>">
+                        <?= $ucastnik[OsobaDetailManazer::PRIEZVISKO]; ?>
+                    </a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

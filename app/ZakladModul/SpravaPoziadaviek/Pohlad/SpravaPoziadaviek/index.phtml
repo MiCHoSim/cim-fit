@@ -1,0 +1,12 @@
+<div class="container rounded clanok-pozadie text-white my-1 p-2">
+    <header class="text-center">
+
+        <?php if ($kontrolerUrl === 'clanok'): ?>
+            <h1 class="font-weight-normal nadpisy"><?= $_titulok ?></h1>
+        <?php endif; ?>
+
+    </header>
+    <article>
+        <?= $this->kontroler->vypisPohlad() // vypiše konkrétny pohľad?>
+    </article>
+</div>

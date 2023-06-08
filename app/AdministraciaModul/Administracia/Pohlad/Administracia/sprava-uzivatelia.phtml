@@ -1,0 +1,14 @@
+<?= $menu->vypisPohlad() ?>
+<div class="row no-gutters text-center text-md-left ">
+    <div class="col-md-3 pb-1">
+        <a href="sluzba/gym/rezervacia" class="btn btn-outline-success">Zobraziť rezervačný kalendár</a>
+    </div>
+    <div class="col-md-9 pl-0 pl-lg-5 pb-1">
+        <a href="administracia/sprava-uzivatelov/rezervacie/dnes" class="btn btn-<?= $typ === 'rezervacie' ? 'success' : 'secondary' ?>">Rezervácie</a>
+        <a href="administracia/sprava-uzivatelov/permanentka" class="btn btn-<?= $typ === 'permanentka' ? 'success' : 'secondary' ?>">Permanentky</a>
+        <a href="administracia/sprava-uzivatelov/vsetci" class=" btn btn-<?= $typ === 'vsetci' ? 'success' : 'secondary' ?>"">Všetci</a>
+        <a href="administracia/sprava-uzivatelov/rezervacia-pridat" class=" btn btn-<?= $typ === 'rezervacia-pridat' ? 'success' : 'secondary' ?>"">Pridať rezerváciu</a>
+    </div>
+</div>
+
+<?php require('../app/AdministraciaModul/Administracia/Pohlad/Administracia/sprava-uzivatelia-' . $tabulka . '.phtml')?>

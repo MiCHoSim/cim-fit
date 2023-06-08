@@ -1,0 +1,58 @@
+<?php use App\ClanokModul\Model\ClanokManazer; ?>
+<?php if($admin) : ?>
+    <div>
+        <a href="administracia/editor/clanok/<?= $clanok[ClanokManazer::URL] ?>?presmeruj=<?= $presmeruj ?>" class="btn btn-light btn-sm border-dark kontrolka"><i title="Editovať" class="fa fa-pencil-alt"></i></a>
+        <?= DialogPomocne::zostavDialogOdstranenia($clanok[ClanokManazer::CLANOK_ID], 'administracia/odstran/clanok/' . $clanok[ClanokManazer::URL], 'Skutočne si prajete odstrániť vybraný Článok?') ?>
+    </div>
+    <div class="text-center text-white rounded-circle <?= $clanok[ClanokManazer::VEREJNY] ? 'bg-success' : 'bg-dark'?>">
+        <?= $clanok['verejny_nazov'] ?>
+    </div>
+<?php endif; ?>
+
+<div class="m-0 m-md-2 mx-lg-5 p-0 px-lg-5">
+
+    <?= isset($_clanok[ClanokManazer::OBSAH]) ? $_clanok[ClanokManazer::OBSAH] : '' ?>
+
+    <?php if (isset($clanok['autor']['meno'])): ?>
+        <footer class="d-flex justify-content-end small text-muted">
+            <table>
+                <tr>
+                    <td class="text-right px-2">Autor:</td>
+                    <td>
+                        <address class="my-0"><?= $clanok['autor']['meno'] ?> <?= FormatPomocne::skrat($clanok['autor']['priezvisko'], 1) ?></address>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right pr-2">Dátum vytvorenia:</td>
+                    <td>
+                        <time><?= FormatPomocne::peknyDatumCas($clanok[ClanokManazer::DATUM_VYTVORENIA], 'H:i') ?></time>
+                    </td>
+                </tr>
+                <?php if (isset($clanok['upravil_autor']['meno'])) : ?>
+                <tr>
+                    <td class="text-right px-2">Upravil:</td>
+                    <td>
+                        <address class="my-0"><?= $clanok['upravil_autor']['meno'] ?> <?= FormatPomocne::skrat($clanok['upravil_autor']['priezvisko'], 1) ?></address>
+                    </td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="text-right pr-2">Dátum úpravy:</td>
+                    <td>
+                        <time><?= FormatPomocne::peknyDatumCas($clanok[ClanokManazer::DATUM_UPRAVY], 'H:i') ?></time>
+                    </td>
+                </tr>
+            </table>
+        </footer>
+    <?php endif; ?>
+</div>
+
+<?php if (isset($galeria)) : // vypiše pohľad článku?>
+    <h3 class="text-center">Fotogaléria</h3>
+    <?= DialogPomocne::zostavDialogCarouselGaleria($galeria, $cestaObrazok) ?>
+    <script src="js/carouselPrepnutie.js"></script>
+<?php endif; ?>
+
+
+
+

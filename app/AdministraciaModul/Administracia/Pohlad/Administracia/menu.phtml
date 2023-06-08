@@ -1,0 +1,39 @@
+<nav class="d-flex justify-content-center bg-primary rounded border border-white">
+    <div class="nav font-weight-bold justify-content-center">
+        <?php foreach ($menuUzivatel as $nazov => $polozky) : ?>
+            <?= DropdownPomocne::drop('right', $nazov, $polozky) ?>
+        <?php endforeach; ?>
+    </div>
+</nav>
+
+<?php if (isset($menuBobby)) : ?>
+    <nav class="d-flex justify-content-center bg-primary rounded border border-white">
+        <div class="nav font-weight-bold justify-content-center">
+            <?php foreach ($menuBobby as $nazov => $polozky) : ?>
+                <?= DropdownPomocne::drop('right', $nazov, $polozky) ?>
+            <?php endforeach; ?>
+        </div>
+    </nav>
+<?php endif; ?>
+
+<?php if (isset($menuAdmin)) : ?>
+<nav class="d-flex justify-content-center bg-primary rounded border border-white">
+    <div class="nav font-weight-bold justify-content-center">
+        <?php foreach ($menuAdmin as $nazov => $polozky) : ?>
+            <?= DropdownPomocne::drop('right', $nazov, $polozky) ?>
+        <?php endforeach; ?>
+    </div>
+</nav>
+<?php endif; ?>
+<?php if (isset($menuProgramator)) : ?>
+<nav class="d-flex justify-content-center bg-primary rounded border border-white">
+    <div class="nav font-weight-bold justify-content-center">
+        <?php foreach ($menuProgramator as $nazov => $polozky) : ?>
+            <?= DropdownPomocne::drop('right', $nazov, $polozky) ?>
+        <?php endforeach; ?>
+    </div>
+</nav>
+<?php endif; ?>
+<header class="text-center">
+    <h1 class="font-weight-normal nadpisy"><?= $titulok ?></h1>
+</header>

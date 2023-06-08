@@ -1,0 +1,23 @@
+<?= $menu->vypisPohlad() ?>
+
+<form method="post" id="<?= $_formular['formularId'] ?>">
+    <?= $_formular['csrf'] ?>
+    <div class="">
+        <div class="col-6 col-md-5 col-lg-4 col-xl-3">
+            <?= $_formular['osoba'] ?>
+        </div>
+        <div class="col-12 col-md-7 col-lg-8 col-xl-9">
+            <div class="mb-3"><?= $_formular['predmet'] ?></div>
+            <?= $_formular['email'] ?>
+        </div>
+        <div class="text-center mt-2 w-100">
+            <?= $_formular['email-tlacidlo'] ?>
+        </div>
+    </div>
+</form>
+
+<script src="https://cdn.tiny.cloud/1/mmbae8fyxgmxf8orwjwbbdwrs8l0hre4r4jjwjoq9z27v6vj/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script type="text/javascript" src="js/tinymce/tinymce.init.js"></script>
+<script type="text/javascript">
+    initTinyMce("email");
+</script>

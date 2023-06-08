@@ -1,0 +1,76 @@
+<?php use App\SutazModul\Model\SutazManazer;
+      use App\SutazModul\Model\SutazTypManazer; ?>
+<?= $menu->vypisPohlad() ?>
+
+    <div class="offset-lg-2 col-lg-8 font-weight-bold">
+        <form method="post" id="<?= $_formular['formularId'] ?>">
+            <?= $_formularEditor['csrf'] ?>
+            <div class="form-group">
+                <?= $_formularEditor[SutazManazer::SUTAZ_ID] ?>
+            </div>
+            <div class="form-group row">
+                <?= $_formularEditor[SutazManazer::NAZOV] ?>
+            </div>
+            <div class="form-group row mb-0">
+                <?= $_formularEditor[SutazManazer::URL] ?>
+            </div>
+            <div class="mb-3 text-center">
+                <small class="">URL Súťaže musí obsahovať iba malé písmena, v pŕipade, že sa skladá z dvoch slov môžte na oddelenie použiť "-".</small>
+            </div>
+            <div class="form-group row">
+                <?= $_formularEditor[SutazManazer::SUTAZ_TYP_ID] ?>
+            </div>
+            <div class="form-group row">
+                <?= $_formularEditor[SutazManazer::INFO] ?>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-4 form-group">
+                    <?= $_formularEditor[SutazManazer::DATUM_SUTAZ] ?>
+                </div>
+                <div class="col-12 col-md-4 form-group">
+                    <?= $_formularEditor[SutazManazer::CAS_SUTAZ] ?>
+                </div>
+                <div class="col-12 col-md-4 form-group">
+                    <?= $_formularEditor[SutazManazer::DATUM_PRIHLASENIE] ?>
+                </div>
+            </div>
+            <div class="text-center">
+                <?= $_formularEditor['sutaz-tlacidlo'] ?>
+            </div>
+        </form>
+    </div>
+
+<h3 class="nadpisy text-center">Pridanie typu Súťaže</h3>
+
+<div class="offset-lg-2 col-lg-8 font-weight-bold">
+    <form method="post" id="<?= $_formular['formularId'] ?>">
+        <?= $_formularTyp['csrf'] ?>
+        <div class="form-group row">
+            <?= $_formularTyp[SutazTypManazer::SUTAZ_TYP_ID] ?>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4 form-group">
+                <?= $_formularTyp[SutazTypManazer::NAZOV] ?>
+            </div>
+            <div class="col-12 col-md-8 form-group">
+                <?= $_formularTyp[SutazTypManazer::POPIS] ?>
+            </div>
+        </div>
+        <div class="text-center">
+            <?= $_formularTyp['typ-tlacidlo'] ?>
+        </div>
+    </form>
+</div>
+
+
+<script src="https://cdn.tiny.cloud/1/mmbae8fyxgmxf8orwjwbbdwrs8l0hre4r4jjwjoq9z27v6vj/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script type="text/javascript" src="js/tinymce/tinymce.init.js"></script>
+<script type="text/javascript">
+    initTinyMce("obsah");
+</script>
+
+
+
+
+

@@ -1,0 +1,14 @@
+<div class="row px-2">
+    <h5 class="offset-md-2 col-md-8">Zadajte prihlasovací email ku ktorému ste zabudli heslo a mi Vám vygenerujeme nové, ktoré následne zašleme na Váš email:</h5>
+</div>
+<div class="mx-5">
+    <div class="offset-lg-4 col-lg-4 offset-md-3 col-md-6 offset-sm-2 col-sm-8">
+        <form method="post" id="<?= $_formular['formularId'] ?>" class="text-center">
+            <?= $_formular['csrf'] ?>
+            <div class="form-group">
+                <?= $_formular['email'] ?>
+            </div>
+            <?= $_formular['zabudnute-heslo-tlacidlo'] ?>
+        </form>
+    </div>
+</div>

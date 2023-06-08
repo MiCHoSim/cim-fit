@@ -1,0 +1,37 @@
+<?php use App\SutazModul\Model\SutazManazer;
+      use App\SutazModul\Model\SutazTypManazer; ?>
+<?= $menu->vypisPohlad() ?>
+
+<div class="d-flex justify-content-center">
+    <table class="table table-sm table-bordered table-striped w-auto table-dark table-responsive-sm">
+        <tr class="text-center">
+            <th>P.č.</th>
+            <th>Názov</th>
+            <th>Dátum</th>
+            <th>Týp</th>
+            <th>Edit.</th>
+        </tr>
+        <?php $poradie = 1; ?>
+        <?php foreach ($sutaze as $sutaz) : ?>
+            <tr class="<?= $sutaz['prebieha'] ? 'bg-success' : ($sutaz['stara'] ? 'text-muted' : '') ?>">
+                <td class="text-center">
+                    <strong><?= $poradie++ ?>.</strong>
+                </td>
+                <th>
+                    <a href="administracia/sutaz/<?= $sutaz[SutazManazer::URL] ?>"><?= $sutaz['sutaz_nazov'] ?></a>
+                </th>
+                <td>
+                    <p><?= FormatPomocne::ciselnyDatum($sutaz[SutazManazer::DATUM_SUTAZ]) ?></p>
+                </td>
+                <td>
+                    <p><?= $sutaz['sutaz_typ_nazov'] ?></p>
+                </td>
+
+                <td class="align-middle text-center text-nowrap">
+                    <a href="administracia/editor/sutaz/<?= $sutaz[SutazManazer::URL] ?>?presmeruj=<?= $presmeruj ?>" class="btn btn-light btn-sm border-dark kontrolka"><i title="Editovať" class="fa fa-pencil-alt"></i></a>
+                    <?= DialogPomocne::zostavDialogOdstranenia($sutaz[SutazManazer::SUTAZ_ID], 'administracia/odstran/sutaz/' . $sutaz[SutazManazer::URL], 'Skutočne si prajete odstrániť vybranú Sútaž?') ?>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    </table>
+</div>

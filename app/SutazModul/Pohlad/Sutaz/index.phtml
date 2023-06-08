@@ -1,0 +1,73 @@
+<?php use App\SutazModul\Model\SutazManazer;
+use Micho\Utility\DatumCas; ?>
+<h1 class="text-center nadpisy">Súťaže</h1>
+
+<?php if ($sutaze): ?>
+    <table class="table table-hover table-sm table-bordered table-striped table-dark table-responsive-xl">
+        <thead class="bg-danger">
+        <tr class="text-center">
+            <th>P.č.</th>
+            <th>Dátum/čas</th>
+            <th>Názov</th>
+            <th>Typ</th>
+            <th>Info</th>
+            <th>Aktívna do</th>
+            <th>Účastníci</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="text-center ">
+        <?php $poradie = 1; ?>
+
+        <?php foreach ($sutaze as $sutaz): ?>
+
+            <tr class="<?= $sutaz['prebieha'] ? 'bg-success' : '' ?>">
+                <td class="text-center">
+                    <strong><?= $poradie++ ?>.</strong>
+                </td>
+
+                <td>
+                    <?= FormatPomocne::peknyDatum($sutaz[SutazManazer::DATUM_SUTAZ]) . ' - ' . FormatPomocne::formatujDatumCasNaTvar($sutaz[SutazManazer::CAS_SUTAZ], 'G:i') . ' (' . FormatPomocne::formatujDatumCasNaTvar($sutaz[SutazManazer::DATUM_SUTAZ], 'Y') . ')' ?>
+                </td>
+                <td>
+                    <?= $sutaz['sutaz_nazov']; ?>
+                </td>
+                <td title="<?= $sutaz['popis']; ?>">
+                    <?= $sutaz['sutaz_typ_nazov']; ?>
+                </td>
+                <td style="min-width: 200px;">
+                    <?= $sutaz[SutazManazer::INFO]; ?>
+                </td>
+                <td>
+                    <?= FormatPomocne::peknyDatum($sutaz[SutazManazer::DATUM_PRIHLASENIE]); ?>
+                </td>
+                <td><?= $sutaz['prihlasenych']; ?></td>
+
+                <td>
+                    <?php if ($sutaz['prihlasenie_ukoncene']): ?>
+                        <?php if ($sutaz['prebieha']): ?>
+                            <strong>Práve prebieha</strong>
+                        <?php elseif ($sutaz['prihlasenie_ukoncene']): ?>
+                            <strong class="text-secondary">Prihlasenie ukončené</strong>
+                        <?php endif; ?>
+                    <?php elseif ($prihlaseny): ?>
+
+                        <?php if (!$sutaz['prihlaseny']): ?>
+                            <a class="btn btn-sm btn-success" href="sutaz/prihlas/<?= $sutaz[SutazManazer::SUTAZ_ID] ?>?presmeruj=<?= $presmeruj ?>">Prihlasiť</a>
+                        <?php else: ?>
+                            <?= DialogPomocne::zostavDialogOdstranenia($sutaz[SutazManazer::SUTAZ_ID], 'sutaz/odhlas/' . $sutaz[SutazManazer::SUTAZ_ID] . '?presmeruj=' . $presmeruj, 'Skutočne sa chcete z danej súťaze odhlásiť?',
+                                '<a href="#" data-toggle="modal" class="btn btn-sm btn-secondary" data-target="#dialog_' . $sutaz[SutazManazer::SUTAZ_ID] . '">Odhlasiť</a>', 'Odhlasiť') ?>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <small>Pre prihlásenie sa na súťaz sa musíte <a href="sutaz/as/#prihlasit">prihlásiť</a> do svojho účtu</small>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <h4 class="text-center">Súťaže sa pripravujú</h4>
+<?php endif; ?>
+
+

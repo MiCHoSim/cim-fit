@@ -1,0 +1,64 @@
+<?php use App\AdministraciaModul\Uzivatel\Model\UzivatelManazer;
+      use App\AdministraciaModul\Uzivatel\Model\OsobaDetailManazer;
+      use App\AdministraciaModul\Uzivatel\Model\TrenerManazer;?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="d-flex justify-content-center">
+    <table class="table table-sm text-center w-auto table-dark">
+        <thead>
+            <tr class="bg-danger">
+                <th  colspan="6">Trénery</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>P.č.</th>
+                <th class="text-left">Tréner</th>
+                <th class="text-left">Prezívka</th>
+                <th class="text-left">Farba</th>
+                <th class="text-left">Aktivny</th>
+            </tr>
+        <?php foreach ($trener as $pc => $tre) : ?>
+            <tr class="<?= $tre[TrenerManazer::AKTIVNY] ? '' : 'text-muted' ?>">
+                <td><?= $pc + 1 ?>.</td>
+                <td class="text-left">
+                    <a href="administracia/osobne-udaje/<?= $tre['uzivatel_id']?>">
+                        <?= $tre['osoba'] ?>
+                    </a>
+                </td>
+                <td class="text-left "><?= $tre[TrenerManazer::PREZIVKA] ?></td>
+                <td class="py-2"><span class="btn" style="width: 50px; background: <?= $tre[TrenerManazer::FARBA] ?>;"></span></td>
+                <td class="text-white <?= $tre[TrenerManazer::AKTIVNY] ? 'bg-success' : 'bg-secondary' ?>"><?= $tre['aktivny_text'] ?>
+                    <?php if($tre[TrenerManazer::AKTIVNY]) : ?>
+                        <a href="administracia/uprav-stav-trenera/<?= $tre[TrenerManazer::TRENER_ID] ?>" class="btn btn-light btn-sm border-dark kontrolka bg-success" title="Deaktivovať">
+                            <i  class="fa fa-power-off"></i>
+                        </a>
+                    <?php else: ?>
+                        <a href="administracia/uprav-stav-trenera/<?= $tre[TrenerManazer::TRENER_ID] ?>" class="btn btn-light btn-sm border-dark kontrolka bg-dark" title="Aktivovať">
+                            <i  class="fa fa-power-off"></i>
+                        </a>
+                    <?php endif; ?>
+
+                </td>
+            </tr>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+<form method="post" id="<?= $_formular['formularId'] ?>" class="text-center">
+    <?= $_formular['csrf'] ?>
+    <div class="row justify-content-center">
+        <div class="form-group col-lg-4 col-10">
+            <?= $_formular[OsobaDetailManazer::EMAIL] ?>
+        </div>
+        <div class="form-group col-lg-2 col-4">
+            <?= $_formular[TrenerManazer::PREZIVKA] ?>
+        </div>
+        <div class="form-group col-lg-2 col-4">
+            <?= $_formular[TrenerManazer::FARBA] ?>
+        </div>
+    </div>
+        <?= $_formular['trener-tlacidlo']; ?>
+</form>
+

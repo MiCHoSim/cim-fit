@@ -1,0 +1,28 @@
+<?php use App\ZakladModul\SpravaPoziadaviek\Model\SpravaPoziadaviekManazer; ?>
+
+<?= $menu->vypisPohlad() ?>
+
+<div class="row">
+    <div class="offset-lg-2 col-lg-8 bg-dark rounded text-white font-weight-bold">
+        <form method="post" id="<?= $_formular['formularId'] ?>" class="">
+            <?= $_formular['csrf'] ?>
+            <div class="form-group pr-3">
+                <?= $_formular[SpravaPoziadaviekManazer::KONTROLER_ID] ?>
+            </div>
+            <div class="form-group row pr-3">
+                <?= $_formular[SpravaPoziadaviekManazer::TITULOK] ?>
+            </div>
+            <div class="form-group row pr-3">
+                <?= $_formular[SpravaPoziadaviekManazer::URL] ?>
+            </div>
+            <div class="form-group row pr-3">
+                <?= $_formular[SpravaPoziadaviekManazer::POPISOK] ?>
+            </div>
+            <div class="form-group row pr-3">
+                <?= $_formular[SpravaPoziadaviekManazer::KONTROLER] ?>
+            </div>
+            <?= $_formular['kontroler-tlacidlo'] ?>
+        </form>
+    </div>
+</div>
+
